@@ -1,4 +1,4 @@
-EPDJtacDebug = true;
+EPDJtacDebug = false;
 
 /*
 	["payloadCategory", "displayName", "projectileFiringMethod", [firing method parameters...]]
