@@ -1,7 +1,7 @@
 EPDJtacDebug = false;
 
 /*
-	["payloadCategory", "displayName", "projectileFiringMethod", [firing method parameters...]]
+	["payloadCategory", "displayName", "acquireRate", "reloadTime", "projectileFiringMethod", [firing method parameters...]]
 	
 	payloadCategory - One of "BULLETS", "SHELLS", "GRENADES", "EXPLOSIVES", "CONCEALMENT". Determines which Jtac menu the payload will show up in.
 	
