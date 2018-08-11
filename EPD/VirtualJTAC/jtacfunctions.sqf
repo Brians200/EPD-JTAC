@@ -84,28 +84,20 @@ CLIENT_ANOTHER_JTAC_FIRED = {
 	JtacAvailable = true;
 };
 
-
-
 INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD = {
 	if(!isserver) exitwith{};
 	
-	private ["_targetLocation", "_projectileSet", "_projectileSetCount", "_i"];
-	//[targetLocationASL, [[className, verticalOffset, numberToSend, spreadRadial, spreadNormal, minTimeBetween, maxRandomTime],...]]
+	private ["_targetLocation", "_projectiles"];
 	_targetLocation = _this select 0;
-	_projectileSet = _this select 1;
-	_projectileSetCount = count _projectileSet;
-	for "_i" from 0 to _projectileSetCount - 1 do{
-		private "_projectiles";
-		_projectiles = _projectileSet select _i;
-		[_targetLocation, _projectiles] spawn SHOOT_PROJECTILES;
-	};
+	_projectiles = _this select 1;
+	[_targetLocation, _projectiles] spawn SHOOT_PROJECTILES;
 };
 
 SHOOT_PROJECTILES = {
-	private ["_incomingAngle", "_sourceHeight", "_source2dDistance", "_targetLocation", "_projectiles", "_projectileClassName", "_verticalOffset", "_numberToSend", "_spreadRadial", "_spreadNormal", "_minTimeBetween", "_maxRandomTime", "_sourceLocation", "_projectileSpeed"];
+	private ["_incomingAngle", "_sourceHeight", "_source2dDistance", "_projectileSpeed", "_targetLocation", "_projectiles", "_projectileClassName", "_verticalOffset", "_numberToSend", "_spreadRadial", "_spreadNormal", "_minTimeBetween", "_maxRandomTime", "_sourceLocation", "_i"];
 	_incomingAngle = random 360;
 	_sourceHeight = 982.1129;
-	_source2dDistance = 1000;
+	_source2dDistance = 2000;
 	_projectileSpeed = 1000;
 	
 	_targetLocation = _this select 0;
@@ -123,7 +115,7 @@ SHOOT_PROJECTILES = {
 					_sourceHeight + (_targetLocation select 2)];
 					
 	for "_i" from 0 to _numberToSend - 1 do{
-		private ["_targetLocationRandom", "_velocity", "_projectile", "_targetSourceDifference"];
+		private ["_targetLocationRandom", "_targetSourceDifference", "_velocity", "_projectile"];
 		
 		//Add some inaccurary...
 		_targetLocationRandom = [ (_targetLocation select 0) + (random 2*_spreadRadial) - _spreadRadial,
@@ -144,75 +136,27 @@ SHOOT_PROJECTILES = {
 	};
 };
 
-INITIATE_AND_DROP_PROJECTILE_PAYLOAD = {
-	if(!isserver) exitwith{};
-	private ["_targetLocation", "_projectileSet", "_projectileSetCount", "_i"];
-	//[targetLocationASL, [[className, numberToSend, spreadRadial, minTimeBetween, maxRandomTime],...]]
-	_targetLocation = _this select 0;
-	_projectileSet = _this select 1;
-	_projectileSetCount = count _projectileSet;
-	for "_i" from 0 to _projectileSetCount - 1 do{
-		private "_projectiles";
-		_projectiles = _projectileSet select _i;
-		[_targetLocation, _projectiles] spawn DROP_PROJECTILES;
-	};
-};
-
-DROP_PROJECTILES = {
-	private ["_sourceHeight", "_targetLocation", "_projectiles", "_projectileClassName", "_numberToSend", "_spreadRadial", "_minTimeBetween", "_maxRandomTime"];
-	_sourceHeight = 1000;
-	
-	_targetLocation = _this select 0;
-	_projectiles = _this select 1;
-	_projectileClassName = _projectiles select 0;
-	_numberToSend = _projectiles select 1;
-	_spreadRadial = _projectiles select 2;
-	_minTimeBetween = _projectiles select 3;
-	_maxRandomTime  = _projectiles select 4;
-					
-	for "_i" from 0 to _numberToSend - 1 do{
-		private ["_targetLocationRandom", "_velocity", "_projectile", "_targetSourceDifference"];
-		
-		//Add some inaccurary...
-		_targetLocationRandom = [ (_targetLocation select 0) + (random 2*_spreadRadial) - _spreadRadial,
-								(_targetLocation select 1) + (random 2*_spreadRadial) - _spreadRadial,
-								_sourceHeight
-		];
-		
-		_velocity = [0,0,-80];
-
-		_projectile = _projectileClassName createVehicle _targetLocationRandom;
-		_projectile setPosASL _targetLocationRandom;
-		_projectile setVelocity _velocity;
-		
-		sleep (_minTimeBetween + random _maxRandomTime);
-	};
-};
-
 INITIATE_AND_DROP_EVEN_PAYLOAD = {
 	if(!isserver) exitwith{};
 	private ["_targetLocation", "_projectileSet"];
-	//[targetLocationASL, [[className, numberToSend, spreadRadial, minTimeBetween, maxRandomTime],...]]
 	_targetLocation = _this select 0;
-	//we aren't looping over projectiles with this one, so need to go one more step into the array
-	_projectileSet = (_this select 1) select 0;
-	
+	_projectileSet = _this select 1;
 	[_targetLocation, _projectileSet] spawn EVEN_SPREAD_PROJECTILES;
 };
 
 EVEN_SPREAD_PROJECTILES = {
-	private ["_sourceHeight", "_targetLocation", "_projectileClassNames", "_numberToSend", "_spreadRadial", "_sourceLocation", "_initialAngle", "_downwardSpeed"];
+	private ["_targetLocation", "_projectileClassNames", "_spreadRadial", "_downwardSpeed", "_numberToSend", "_sourceHeight", "_initialAngle", "_i"];
+	_initialAngle = random 360;
+	_numberToSend = 12;
+
 	_targetLocation = _this select 0;
 	_projectileClassNames = (_this select 1) select 0;
 	_spreadRadial = (_this select 1) select 1;
 	_downwardSpeed = (_this select 1) select 2;
-	_numberToSend = 12;
 	_sourceHeight = (_targetLocation select 2) + ((_this select 1) select 3);
-	
-	_initialAngle = random 360;
+
 	for "_i" from 0 to _numberToSend - 1 do{
-		private ["_targetLocationRandom", "_velocity", "_projectile", "_targetSourceDifference", "_loopRadius"];
-		
+		private ["_targetLocationRandom", "_loopRadius", "_velocity", "_projectile"];
 		_targetLocationRandom = [0,0,0];
 				
 		if(_i < 3) then {
@@ -238,68 +182,117 @@ EVEN_SPREAD_PROJECTILES = {
 	};
 };
 
-INITIATE_MISSILES_AND_BOMBS_PAYLOAD = {
+INITIATE_BOMBS_PAYLOAD = {
 	if(!isserver) exitwith{};
-	private ["_targetLocation", "_projectileSet", "_projectileSetCount", "_i"];
-	//[targetLocationASL, [[className, numberToSend, spreadRadial, minTimeBetween, maxRandomTime],...]]
+	private ["_targetLocation", "_projectiles"];
 	_targetLocation = _this select 0;
-	_projectileSet = _this select 1;
-	_projectileSetCount = count _projectileSet;
-	for "_i" from 0 to _projectileSetCount - 1 do{
-		private "_projectiles";
-		_projectiles = _projectileSet select _i;
-		[_targetLocation, _projectiles] spawn DROP_MISSILES_AND_BOMBS;
-	};
+	_projectiles = _this select 1;
+	[_targetLocation, _projectiles] spawn DROP_BOMBS;
 };
 
-DROP_MISSILES_AND_BOMBS = {
-	private ["_sourceHeight", "_targetLocation", "_projectiles", "_projectileClassName", "_numberToSend", "_spreadRadial", "_minTimeBetween", "_maxRandomTime"];
-	_sourceHeight = 1000;
+DROP_BOMBS = {
+	private ["_incomingAngle", "_sourceHeight", "_source2dDistance", "_targetLocation", "_projectiles", "_projectileClassName", "_numberToSend", "_bombSpeed", "_speedVariance", "_spreadRadial", "_minTimeBetween", "_maxRandomTime", "_sourceLocation", "_i"];
+	_incomingAngle = random 360;
+	_sourceHeight = 1300;
+	_source2dDistance = 3919.25;
 	
 	_targetLocation = _this select 0;
 	_projectiles = _this select 1;
 	_projectileClassName = _projectiles select 0;
 	_numberToSend = _projectiles select 1;
-	_spreadRadial = _projectiles select 2;
-	_minTimeBetween = _projectiles select 3;
-	_maxRandomTime  = _projectiles select 4;
+	_bombSpeed = _projectiles select 2;
+	_speedVariance = _projectiles select 3;
+	_spreadRadial = _projectiles select 4;
+	_minTimeBetween = _projectiles select 5;
+	_maxRandomTime  = _projectiles select 6;
 					
+	_sourceLocation = [ (_targetLocation select 0) + (cos _incomingAngle) * _source2dDistance,
+					(_targetLocation select 1) + (sin _incomingAngle) * _source2dDistance,
+					_sourceHeight + (_targetLocation select 2)];
+
 	for "_i" from 0 to _numberToSend - 1 do{
-		private ["_targetLocationRandom", "_velocity", "_projectile", "_targetSourceDifference"];
+		private ["_spawnLocation", "_targetSourceDifference", "_bomb", "_angle", "_bombSpeed", "_velocity"];
 		
-		//Add some inaccurary...
-		_targetLocationRandom = [ (_targetLocation select 0) + (random 2*_spreadRadial) - _spreadRadial,
-								(_targetLocation select 1) + (random 2*_spreadRadial) - _spreadRadial,
-								_sourceHeight
-		];
+		_spawnLocation = [(_sourceLocation select 0 ) + (random (2 * _spreadRadial) - _spreadRadial),
+						(_sourceLocation select 1 ) + (random (2 * _spreadRadial) - _spreadRadial),
+						_sourceLocation select 2];
 		
-		_velocity = [0,0,0];
+		_targetSourceDifference =  (_targetLocation vectorDiff _sourceLocation);
+        _targetSourceDifference set [2,0];
 		
-		//Rockets just float if you don't give them an initial velocity
-		if(_projectileClassName select [0,2] == "R_") then {
-			_velocity = [0,0,-30];
-		};
-		
-		_projectile = _projectileClassName createVehicle _targetLocationRandom;
-		_projectile setPosASL _targetLocationRandom;
-		_projectile setVectorDirAndUp  [[0,0,-1],[1,0,0]];
-		_projectile setVelocity _velocity;
+		_targetSourceDifference = vectorNormalized _targetSourceDifference;
+		_bomb = _projectileClassName createVehicle _spawnLocation;
+		_bomb setPosASL  _spawnLocation;
+		_angle = 270 - _incomingAngle;
+		_bomb setDir _angle;
+		_bombSpeed = _bombSpeed + (random (2*_speedVariance)) - _speedVariance;
+		_velocity = [_bombSpeed * (_targetSourceDifference select 0),_bombSpeed * (_targetSourceDifference select 1),0];
+		_bomb setVelocity _velocity;
 		
 		sleep (_minTimeBetween + random _maxRandomTime);
 	};
 };
 
+INITIATE_MISSILES_PAYLOAD = {
+	if(!isserver) exitwith{};
+	private ["_targetLocation", "_projectiles"];
+	_targetLocation = _this select 0;
+	_projectiles = _this select 1;
+	[_targetLocation, _projectiles] spawn FIRE_MISSILES;
+};
+
+FIRE_MISSILES = {
+	private ["_incomingAngle", "_sourceHeight", "_targetLocation", "_projectiles", "_projectileClassName", "_numberToSend", "_source2dDistance", "_pitch", "_pitchVariance", "_yawVariance", "_minTimeBetween", "_maxRandomTime", "_sourceLocation", "_i"];
+	_incomingAngle = random 360;
+	_sourceHeight = 1300;
+
+	_targetLocation = _this select 0;
+	_projectiles = _this select 1;
+	_projectileClassName = _projectiles select 0;
+	_numberToSend = _projectiles select 1;
+	_source2dDistance = _projectiles select 2;
+	_pitch = _projectiles select 3;
+	_pitchVariance = _projectiles select 4;
+	_yawVariance = _projectiles select 5;
+	_minTimeBetween = _projectiles select 6;
+	_maxRandomTime  = _projectiles select 7;
+
+	_sourceLocation = [ (_targetLocation select 0) + (cos _incomingAngle) * _source2dDistance,
+					(_targetLocation select 1) + (sin _incomingAngle) * _source2dDistance,
+					_sourceHeight + (_targetLocation select 2)];
+
+	for "_i" from 0 to _numberToSend - 1 do{
+		private ["_targetLocationRandom", "_velocity", "_missile", "_targetSourceDifference", "_pitchRandom", "_yaw", "_roll"];
+
+		_targetSourceDifference =  (_targetLocation vectorDiff _sourceLocation);
+        _targetSourceDifference set [2,0];
+
+		_targetSourceDifference = vectorNormalized _targetSourceDifference;
+
+		_missile = _projectileClassName createVehicle _sourceLocation;
+		_missile setPosASL  _sourceLocation;
+
+		_yaw = 270 - _incomingAngle + (random (2*_yawVariance)) - _yawVariance;
+		_roll = 0;
+		_pitchRandom = _pitch + (random (2*_pitchVariance)) - _pitchVariance;
+		_missile setVectorDirAndUp [
+			[ sin _yaw * cos _pitchRandom,cos _yaw * cos _pitchRandom,sin _pitchRandom],
+			[ [ sin _roll,-sin _pitchRandom,cos _roll * cos _pitchRandom],-_yaw] call BIS_fnc_rotateVector2D
+		];
+
+		sleep (_minTimeBetween + random _maxRandomTime);
+	};
+};
+
 PARSE_AVAILABLE_JTAC_ATTACKS = {
-	private ["_numJtacAttacks", "_jtackAttackI"];
-	
+	private ["_numJtacAttacks", "_jtackAttackI", "_bullets", "_shells", "_grenades", "_bombs", "_missiles", "_nonlethal", "_bulletsCount"];
+
 	_bullets = [];
 	_shells = [];
 	_grenades = [];
 	_bombs = [];
 	_missiles = [];
 	_nonlethal = [];
-	
-	jtacBulletsString = "";
 	
 	_numJtacAttacks = count availableJtacAttacks;
 	for "_jtackAttackI" from 0 to _numJtacAttacks -1 do {
@@ -336,11 +329,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	_bulletsCount = count _bullets;
 	JtacBulletMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
 		_currentBullet = _bullets select _bulletsI;
 		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, [" +
+								"%1, " +
 								format["%1", _currentBullet select 4] +
-								format["]] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
 		JtacBulletMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
@@ -349,11 +343,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	_bulletsCount = count _shells;
 	JtacShellMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
 		_currentBullet = _shells select _bulletsI;
 		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, [" +
+								"%1, " +
 								format["%1", _currentBullet select 4] +
-								format["]] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
 		JtacShellMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
@@ -362,11 +357,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	_bulletsCount = count _grenades;
 	JtacGrenadeMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
 		_currentBullet = _grenades select _bulletsI;
 		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, [" +
+								"%1, " +
 								format["%1", _currentBullet select 4] +
-								format["]] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
 		JtacGrenadeMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
@@ -375,11 +371,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	_bulletsCount = count _bombs;
 	JtacBombsMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
 		_currentBullet = _bombs select _bulletsI;
 		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, [" +
+								"%1, " +
 								format["%1", _currentBullet select 4] +
-								format["]] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
 		JtacBombsMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
@@ -388,11 +385,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	_bulletsCount = count _missiles;
 	JtacMissilesMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
 		_currentBullet = _missiles select _bulletsI;
 		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, [" +
+								"%1, " +
 								format["%1", _currentBullet select 4] +
-								format["]] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
 		JtacMissilesMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
@@ -401,11 +399,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	_bulletsCount = count _nonlethal;
 	JtacNonLethalMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
 		_currentBullet = _nonlethal select _bulletsI;
 		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, [" +
+								"%1, " +
 								format["%1", _currentBullet select 4] +
-								format["]] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
 		JtacNonLethalMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];

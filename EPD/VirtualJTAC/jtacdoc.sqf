@@ -45,20 +45,20 @@ Radial Spread: 5m<br/>
 Target Acquisition Time: 40 seconds<br/>
 Reload Time: 300 seconds<br/><br/>
 
-RPG-42 75mm HE<br/>
+84mm MAAWS 44 HE<br/>
 Number of Rounds: 7<br/>
 Radial Spread: 15m<br/>
 Target Acquisition Time: 30 seconds<br/>
 Reload Time: 420 seconds<br/><br/>
 
 Vorona 130mm HE<br/>
-Number of Rounds: 5<br/>
+Number of Rounds: 6<br/>
 Radial Spread: 24<br/>
 Target Acquisition Time: 40 seconds<br/>
 Reload Time: 480 seconds<br/><br/>
 
 230mm HE<br/>
-Number of Rounds: 2<br/>
+Number of Rounds: 4<br/>
 Radial Spread: 27m<br/>
 Target Acquisition Time: 50 seconds<br/>
 Reload Time: 540 seconds<br/><br/>
