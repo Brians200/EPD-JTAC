@@ -211,7 +211,7 @@ DROP_BOMBS = {
 					_sourceHeight + (_targetLocation select 2)];
 
 	for "_i" from 0 to _numberToSend - 1 do{
-		private ["_spawnLocation", "_targetSourceDifference", "_bomb", "_angle", "_bombSpeed", "_velocity"];
+		private ["_spawnLocation", "_targetSourceDifference", "_bomb", "_angle", "_velocity"];
 		
 		_spawnLocation = [(_sourceLocation select 0 ) + (random (2 * _spreadRadial) - _spreadRadial),
 						(_sourceLocation select 1 ) + (random (2 * _spreadRadial) - _spreadRadial),
