@@ -6,18 +6,20 @@ SERVER_REQUEST_PERMISSION_TO_FIRE = {
 	private["_unit", "_reloadDelay", "_payload"];
 	_unit = _this select 0;
 	_payload = _this select 1;
-	[[JtacCanFireSalvo, JtacReloadTimer, _payload], "CLIENT_RECEIVE_PERMISSION_TO_FIRE", _unit, false, false] call BIS_fnc_MP; 
+	[[JtacCanFireSalvo, JtacReloadTimer, EPDJtacAquisitionGlobalModifier, _payload], "CLIENT_RECEIVE_PERMISSION_TO_FIRE", _unit, false, false] call BIS_fnc_MP;
 };
 
 CLIENT_RECEIVE_PERMISSION_TO_FIRE = {
-	private ["_permissionToFire", "_reloadTimeRemaining", "_payloadInformation"];
+	private ["_permissionToFire", "_reloadTimeRemaining", "_payloadInformation", "_aquisitionGlobalModifier"];
 	_canFireSalvo = _this select 0;
 	_reloadTimeRemaining = _this select 1;
-	_payloadInformation = _this select 2;
+	_aquisitionGlobalModifier = _this select 2;
+	_payloadInformation = _this select 3;
+
 	JtacAvailable = false;
 	if( _canFireSalvo ) then {
 		private["_counterSleepTime", "_counter", "_targetAcquired", "_firemission", "_laserLocation", "_currentLaserLocation"];
-		_counterSleepTime = _payloadInformation select 0;
+		_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 		_reloadDelay = _payloadInformation select 1;
 		_counter = 0;
 		_targetAcquired = true;
@@ -57,7 +59,7 @@ SERVER_PERFORM_FIRE_MISSION = {
 	private ["_unit", "_fireMission", "_reloadDelay"];
 	_unit = _this select 0;
 	_fireMission = _this select 1;
-	_reloadDelay = _this select 2;
+	_reloadDelay = (_this select 2) * EPDJtacCoolDownGlobalModifier;
 	
 	
 	if (JtacCanFireSalvo) then {
@@ -65,7 +67,7 @@ SERVER_PERFORM_FIRE_MISSION = {
 		JtacReloadTimer = _reloadDelay;
 		sleep (5 + random 15);
 		call compile _fireMission;
-		[] spawn {
+		0 = [] spawn {
 			if(not EPDJtacDebug) then {
 				while {JtacReloadTimer > 0 } do {
 					JtacReloadTimer = JtacReloadTimer - 1;
