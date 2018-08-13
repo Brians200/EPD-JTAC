@@ -133,7 +133,7 @@ SHOOT_PROJECTILES = {
 		_projectile = _projectileClassName createVehicle [(_sourceLocation select 0),(_sourceLocation select 1),_sourceLocation select 2];
 		_projectile setPosASL [(_sourceLocation select 0), (_sourceLocation select 1), (_sourceLocation select 2)];
 		_projectile setVelocity _velocity;
-		
+
 		sleep (_minTimeBetween + random _maxRandomTime);
 	};
 };
@@ -180,7 +180,44 @@ EVEN_SPREAD_PROJECTILES = {
 		_projectile = (_projectileClassNames call BIS_fnc_selectRandom) createVehicle _targetLocationRandom;
 		_projectile setPosASL _targetLocationRandom;
 		_projectile setVelocity _velocity;
+	};
+};
+
+ROTATE_PLACED_MINE = {
+	private ["_mine", "_direction"];
+	_mine = _this select 0;
+	_direction = _this select 1;
+	_mine setDir _direction;
+};
+
+INITIATE_AND_LAY_MINE_FIELD = {
+	if(!isserver) exitwith{};
+	private ["_targetLocation", "_projectileSet"];
+	_targetLocation = _this select 0;
+	_projectileSet = _this select 1;
+	[_targetLocation, _projectileSet] spawn LAY_MINE_FIELD;
+};
+
+LAY_MINE_FIELD = {
+	private ["_targetLocation", "_mineClassNames", "_spreadRadial", "_numberToSend", "_i"];
+
+	_targetLocation = _this select 0;
+	_targetLocation set [2, 0]; //mines belong on the ground
+	_mineClassNames = (_this select 1) select 0;
+	_numberToSend = (_this select 1) select 1;
+	_spreadRadial = (_this select 1) select 2;
+
+	for "_i" from 0 to _numberToSend - 1 do{
+		private ["_mine", "_direction"];
+
+		_mine = createMine [(_mineClassNames call BIS_fnc_selectRandom), _targetLocation, [], _spreadRadial];
+		_direction = random 360;
+		[_mine, _direction] remoteExec ["ROTATE_PLACED_MINE", 0, true];
+		_mine setPos getPos _mine;
+		//Add a little effect to the new mines so it is obvious they have landed.
+		"CMflareAmmo" createVehicle getpos _mine;
 		
+		sleep (.1 + random .5);
 	};
 };
 
@@ -230,7 +267,7 @@ DROP_BOMBS = {
 		_bombSpeed = _bombSpeed + (random (2*_speedVariance)) - _speedVariance;
 		_velocity = [_bombSpeed * (_targetSourceDifference select 0),_bombSpeed * (_targetSourceDifference select 1),0];
 		_bomb setVelocity _velocity;
-		
+
 		sleep (_minTimeBetween + random _maxRandomTime);
 	};
 };
@@ -287,13 +324,14 @@ FIRE_MISSILES = {
 };
 
 PARSE_AVAILABLE_JTAC_ATTACKS = {
-	private ["_numJtacAttacks", "_jtackAttackI", "_bullets", "_shells", "_grenades", "_bombs", "_missiles", "_nonlethal", "_bulletsCount"];
+	private ["_numJtacAttacks", "_jtackAttackI", "_bullets", "_shells", "_grenades", "_bombs", "_missiles", "_mines", "_nonlethal", "_bulletsCount"];
 
 	_bullets = [];
 	_shells = [];
 	_grenades = [];
 	_bombs = [];
 	_missiles = [];
+	_mines = [];
 	_nonlethal = [];
 	
 	_numJtacAttacks = count availableJtacAttacks;
@@ -303,23 +341,27 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		_attackType = _currentAttack select 0;
 		if(_attackType == "BULLETS") then {
 			_bullets set [ count _bullets, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
-		} else {	
+		} else {
 			if(_attackType == "SHELLS") then {
 				_shells set [ count _shells, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
-			} else {		
+			} else {
 				if(_attackType == "GRENADES") then {
 					_grenades set [ count _grenades, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
-				} else {		
+				} else {
 					if(_attackType == "BOMBS") then {
 						_bombs set [ count _bombs, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
-					} else {	
+					} else {
 						if(_attackType == "MISSILES") then {
-						_missiles set [ count _missiles, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
+							_missiles set [ count _missiles, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
 						} else {
-							if(_attackType == "NONLETHAL") then {
-								_nonlethal set [ count _nonlethal, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
-							} else {		
-								diag_log format ["VirtualJTAC :::: Ignoring unknown payloadCategory for: %1",  _currentAttack];
+							if(_attackType == "MINES") then {
+								_mines set [ count _mines, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
+							} else {
+								if(_attackType == "NONLETHAL") then {
+									_nonlethal set [ count _nonlethal, [_currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
+								} else {
+									diag_log format ["VirtualJTAC :::: Ignoring unknown payloadCategory for: %1",  _currentAttack];
+								};
 							};
 						};
 					};
@@ -393,7 +435,21 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 								"%1, " +
 								format["%1", _currentBullet select 4] +
 								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
-		JtacMissilesMenu set [_bulletsI + 1, 
+		JtacMissilesMenu set [_bulletsI + 1,
+			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
+		];
+	};
+
+	_bulletsCount = count _mines;
+	JtacMinesMenu = [["JTAC Bullets", true]];
+	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
+		_currentBullet = _mines select _bulletsI;
+		_innerExpressionString = format ["[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
+								"%1, " +
+								format["%1", _currentBullet select 4] +
+								format["] call %1;'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+		JtacMinesMenu set [_bulletsI + 1,
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};

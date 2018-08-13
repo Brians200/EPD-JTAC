@@ -1,3 +1,5 @@
+EPDJtacAddTracerToProjectiles = true;
+
 if(isserver) then {
 	//If true, allows you to skip the cool down.
 	EPDJtacDebug = false;
@@ -59,6 +61,12 @@ if(isserver) then {
 				_spreadRadial - Radius of the horizontal inaccuracy. Projectiles can land anywhere in a circle of this radius around the target.
 				_downwardSpeed - Initial downward velocity before gravity kicks in.
 				_spawnHeight - Height above the terran that the projectile will spawn.
+
+		INITIATE_AND_LAY_MINE_FIELD - Spawns a mine field.
+			parameters - [[_mineClassName, _mineClassName,...], _numberToSend,  _spreadRadial]
+				_projectileClassName - Classname of the projectile to use. 1 or more of these can be passed in.
+				_numberToSend - How many mines to lay.
+				_spreadRadial - How far the mines can spawn from the target.
 */
 
 availableJtacAttacks  = [
@@ -66,29 +74,37 @@ availableJtacAttacks  = [
 		["BULLETS", "30mm HE", .12, 90, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["B_30mm_HE", 43.7, 15, 8, 2, .2, .2]],
 		["BULLETS", "35mm AA", .14, 120, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["B_35mm_AA", 57.5, 10, 16, 5, .4, .4]],
 		["BULLETS", "40mm GPR", .16, 150, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["B_40mm_GPR", 70.9, 6, 16, 5, .6, .6]],
-		
+
 		["SHELLS", "82mm AMOS", .18, 180, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["Sh_82mm_AMOS", 23.9, 5, 20, 5, 1, .5]],
 		["SHELLS", "120mm HE", .20, 210, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["Sh_120mm_HE", 37.4, 3, 25, 8, 1, 1]],
 		["SHELLS", "155mm AMOS", .22, 240, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["Sh_155mm_AMOS", 23.9, 2, 30, 10, 2, 1]],
 		["SHELLS", "155mm CLUSTER", .24, 270, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["Cluster_155mm_AMOS", 23.9, 1, 2, 2, 2, 1]],
-		
+
 		["GRENADES", "20mm HE", .10, 60, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["G_20mm_HE", 177.1, 10, 16, 5, .5, .5]],
 		["GRENADES", "40mm HE", .16, 150, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["G_40mm_HE", 177.1, 6, 18, 8, .5, 1]],
 		["GRENADES", "40mm HEDP", .16, 150, "INITIATE_AND_SHOOT_PROJECTILE_PAYLOAD", ["G_40mm_HEDP", 177.1, 6, 18, 8, .5, 1]],
-		
+
 		["BOMBS", "250lb SDB", .40, 300, "INITIATE_BOMBS_PAYLOAD", ["ammo_Bomb_SDB", 1, 250, 0.125, 2, 0, 0]],
 		["BOMBS", "500lb GBU12", .44, 360, "INITIATE_BOMBS_PAYLOAD", ["Bomb_03_F", 1, 223.5, 1, 10, 0, 0]],
 		["BOMBS", "580lb Cluster", .48, 420, "INITIATE_BOMBS_PAYLOAD", ["BombCluster_03_Ammo_F", 1, 212, 0.5, 10, 0, 0]],
 		["BOMBS", "750lb Cluster", .52, 480, "INITIATE_BOMBS_PAYLOAD", ["BombCluster_01_Ammo_F", 1, 224, 0.5, 10, 0, 0]],
 		["BOMBS", "1100lb Cluster", .56, 540, "INITIATE_BOMBS_PAYLOAD", ["BombCluster_02_Ammo_F", 1, 255, 0.5, 10, 0, 0]],
 		["BOMBS", "Cruise Missile Cluster", .60, 600, "INITIATE_MISSILES_PAYLOAD", ["ammo_Missile_Cruise_01_Cluster", 1, 3911.5, -17.04, 0.1, 0.1, 0, 0]],
-		
+
 		["MISSILES", "Vorona 130mm HEAT", .40, 300, "INITIATE_MISSILES_PAYLOAD", ["M_Vorona_HEAT", 6, 1911.5, -28.99, 0.05, 0.05, 2, 1]],
 		["MISSILES", "84mm MAAWS 44 HE", .30, 420, "INITIATE_BOMBS_PAYLOAD", ["R_MRAAWS_HE_F", 7, 295.7, 1, 15, 1, 1]],  //Special snowflake
 		["MISSILES", "Vorona 130mm HE", .40, 480, "INITIATE_MISSILES_PAYLOAD", ["M_Vorona_HE", 6, 1911.5, -28.99, 0.25, 0.25, 1, 2]],
 		["MISSILES", "230mm HE", .50, 540, "INITIATE_BOMBS_PAYLOAD", ["R_230mm_HE", 4, 240.55, 1, 25, .4, .2]],  //Special snowflake
 		["MISSILES", "Cruise Missile", .60, 600, "INITIATE_MISSILES_PAYLOAD", ["ammo_Missile_Cruise_01", 3, 3911.5, -17.04, 0.3, 0.3, 4, 1]],
-		
+
+		["MINES", "APERS Mine", .30, 240, "INITIATE_AND_LAY_MINE_FIELD", [["APERSMine"], 20, 20]],
+		["MINES", "APERS Bounding Mine", .30, 240, "INITIATE_AND_LAY_MINE_FIELD", [["APERSBoundingMine"], 20, 20]],
+		["MINES", "APERS Mix", .40, 240, "INITIATE_AND_LAY_MINE_FIELD", [["APERSMine", "APERSBoundingMine"], 20, 20]],
+		["MINES", "Anti-Tank Mine", .30, 300, "INITIATE_AND_LAY_MINE_FIELD", [["ATMine"], 20, 20]],
+		["MINES", "SLAM Directional Mine", .30, 300, "INITIATE_AND_LAY_MINE_FIELD", [["SLAMDirectionalMine"], 20, 20]],
+		["MINES", "Anti-Vehicle Mix", .30, 300, "INITIATE_AND_LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
+		["MINES", "Demine", .30, 180, "INITIATE_AND_DROP_EVEN_PAYLOAD", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
+
 		["NONLETHAL", "Red, White, and Blue", .10, 30, "INITIATE_AND_DROP_EVEN_PAYLOAD", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
 		["NONLETHAL", "White Wall Medium", .12, 60, "INITIATE_AND_DROP_EVEN_PAYLOAD", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],
 		["NONLETHAL", "White Wall Large", .14, 60, "INITIATE_AND_DROP_EVEN_PAYLOAD", [["Smoke_120mm_AMOS_White"], 35, -80, 1000]],
@@ -97,6 +113,3 @@ availableJtacAttacks  = [
 		["NONLETHAL", "Strobes", .10, 30, "INITIATE_AND_DROP_EVEN_PAYLOAD", [["I_IRStrobe"], 15, -0.1, 120]],
 		["NONLETHAL", "Night Signal", .10, 30, "INITIATE_AND_DROP_EVEN_PAYLOAD", [["Chemlight_blue", "G_40mm_Smoke"], 8, -0.1, 120]]
 	];
-	
-
-	/** TODO: Mine fields? **/

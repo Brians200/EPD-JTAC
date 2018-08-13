@@ -35,6 +35,43 @@ Reload Time: 30 seconds<br/><br/>
 
 "]];
 
+player createDiaryRecord ["EPDJTAC", ["JTAC Mines", "
+The JTAC operator can lay a wide variety of mine fields.<br/><br/>
+
+APERS Mine - A classic pressure-activated anti-personnel mine. These are anti-personnel mines which also do a good job of destroying the tires of wheeled vehicles which drive over them. They detonate once someone steps within half a meter of their position. Detonation is immediate and not always fatal. <br/>
+Radial Spread: 20m<br/>
+Number of Mines: 20<br/>
+Reload Time: 240 seconds<br/><br/>
+
+APERS Bounding Mine - The anti-personnel bounding mine is best suitable for open areas. When triggered, there is a delay of ~1 second after which a charge launches the body of the mine one meter into the air. The explosion covers a close area with fragments, killing the whole group.<br/>
+Radial Spread: 20m<br/>
+Number of Mines: 20<br/>
+Reload Time: 240 seconds<br/><br/>
+
+APERS Mix - Lays a random mixture of APERS and APERS Bounding mines.<br/>
+Radial Spread: 20m<br/>
+Number of Mines: 20<br/>
+Reload Time: 300 seconds<br/><br/>
+
+Anti-Tank Mine - The design of anti-tank mines has not changed much during the last 50 years. An AT mine is the strongest ground mine manufactured today. They are triggered only by vehicles.<br/>
+Radial Spread: 20m<br/>
+Number of Mines: 20<br/>
+Reload Time: 300 seconds<br/><br/>
+
+SLAM Directional Mine - The M6 SLAM mine is a next generation Selectable Lightweight Attack Munition. They are very effective against light armored vehicles, penetrating 40 mm armor from up to eight meters. Unlike dug-in mines, SLAM is placed on the ground and is easier to spot.<br/>
+Radial Spread: 20m<br/>
+Number of Mines: 20<br/>
+Reload Time: 300 seconds<br/><br/>
+
+Anti-Vehicle Mix - Lays a random mixture of Anti-Tank Mine and SLAM mines.<br/>
+Radial Spread: 20m<br/>
+Reload Time: 300 seconds<br/><br/>
+
+Demine - Attempts to clear out an area of mines by dropping 12 perfectly spaced demining charges on the area. 3 charges will form a triangle in the middle and 9 more charges will form a ring around it.<br/>
+Radial Spread: 20m<br/>
+Reload Time: 180 seconds<br/><br/>
+"]];
+
 player createDiaryRecord ["EPDJTAC", ["JTAC Missile Barrage", "
 The JTAC operator can fire a wide variety of missile barrages.<br/><br/>
 

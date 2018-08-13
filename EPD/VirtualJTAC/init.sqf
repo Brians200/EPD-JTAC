@@ -5,12 +5,13 @@ call PARSE_AVAILABLE_JTAC_ATTACKS;
 
 JtacMainMenu = [
 	["EPD JTAC", true],
-	["Bullets", [2], "#USER:JtacBulletMenu", -5, [["expression", ""]], "1", "1"], 
-	["Shells", [3], "#USER:JtacShellMenu", -5, [["expression", ""]], "1", "1"], 
-	["Grenades", [4], "#USER:JtacGrenadeMenu", -5, [["expression", ""]], "1", "1"], 
-	["Bombs", [5], "#USER:JtacBombsMenu", -5, [["expression", ""]], "1", "1"], 
-	["Missile Barrage", [6], "#USER:JtacMissilesMenu", -5, [["expression", ""]], "1", "1"], 
-	["Non Lethal", [7], "#USER:JtacNonLethalMenu", -5, [["expression", ""]], "1", "1"]	
+	["Bullets", [2], "#USER:JtacBulletMenu", -5, [["expression", ""]], "1", "1"],
+	["Shells", [3], "#USER:JtacShellMenu", -5, [["expression", ""]], "1", "1"],
+	["Grenades", [4], "#USER:JtacGrenadeMenu", -5, [["expression", ""]], "1", "1"],
+	["Bombs", [5], "#USER:JtacBombsMenu", -5, [["expression", ""]], "1", "1"],
+	["Missile Barrage", [6], "#USER:JtacMissilesMenu", -5, [["expression", ""]], "1", "1"],
+	["Mine Field", [7], "#USER:JtacMinesMenu", -5, [["expression", ""]], "1", "1"],
+	["Non Lethal", [8], "#USER:JtacNonLethalMenu", -5, [["expression", ""]], "1", "1"]
 ];
 
 if(!isDedicated) then {
