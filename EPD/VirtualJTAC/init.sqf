@@ -27,6 +27,31 @@ if(!isDedicated) then {
 		player addEventHandler ["Respawn", {JtacAvailable = true; player setVariable ["JTAC",true]; player addaction [("<t color=""#27EE1F"">") + ("JTAC Salvos") + "</t>", { showCommandingMenu "#USER:JtacMainMenu";}, "", -10, false, true,"",'JtacAvailable'];}];
 		call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacdoc.sqf";
 	};
+
+	0 = [] spawn {
+		private ["_actionNumber","_booleanActionAdd","_addActionedUav"];
+		_actionNumber = -1;
+		_booleanActionAdd = false;
+		_addActionedUav = objNull;
+		while {true} do {
+			private ["_currentUav"];
+			_currentUav = getConnectedUAV player;
+
+			if (!isNull _addActionedUav and _addActionedUav != _currentUav) then {
+				_addActionedUav removeAction _actionNumber;
+				_addActionedUav = objNull;
+				_booleanActionAdd = false;
+			};
+
+			if (!_booleanActionAdd and !isNull _currentUav) then {
+				_booleanActionAdd = true;
+				_addActionedUav = getConnectedUAV player;
+				_actionNumber = (getConnectedUAV player) addaction [("<t color=""#27EE1F"">") + ("JTAC Salvos") + "</t>", { showCommandingMenu "#USER:JtacMainMenu";}, "", -10, false, true,"",'JtacAvailable && ((UAVControl getConnectedUAV player) select 1) == "GUNNER"'];
+			};
+
+			sleep 1;
+		};
+	};
 };
 
 if(!isserver) exitwith{};

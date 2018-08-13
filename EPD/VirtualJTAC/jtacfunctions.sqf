@@ -18,17 +18,36 @@ CLIENT_RECEIVE_PERMISSION_TO_FIRE = {
 
 	JtacAvailable = false;
 	if( _canFireSalvo ) then {
-		private["_counterSleepTime", "_counter", "_targetAcquired", "_firemission", "_laserLocation", "_currentLaserLocation"];
+		private["_counterSleepTime", "_counter", "_targetAcquired", "_firemission", "_laserLocation"];
 		_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 		_reloadDelay = _payloadInformation select 1;
 		_counter = 0;
 		_targetAcquired = true;
 		_laserLocation = [0,0,0];
 		while {_counter < 100 } do {
+			private["_laserTarget", "_currentLaserLocation", "_designatorName"];
 			_counter = _counter + 1 ;
-			hintSilent format["Acquiring target: %1%2", _counter, "%"];
-			if(isNull laserTarget player) exitwith{_targetAcquired = false; };
-			_currentLaserLocation = getPosASL laserTarget player;
+
+			_laserTarget = objNull;
+			_designatorName = "Laser Designator";
+			_laserTarget = laserTarget player;
+
+			hint format["%1", laserTarget (getConnectedUAV player)];
+
+			if(isNull _laserTarget and !isNull laserTarget (getConnectedUAV player)) then {
+				_laserTarget = laserTarget (getConnectedUAV player);
+				_designatorName = "Connected UAV";
+			};
+
+			if(isNull _laserTarget and !isNull laserTarget (vehicle player)) then {
+				_laserTarget = laserTarget (vehicle player);
+				_designatorName = "Your Vehicle";
+			};
+
+			hintSilent format["Using %1\nAcquiring target: %2%3", _designatorName, _counter, "%"];
+
+			if(isNull _laserTarget) exitwith{_targetAcquired = false; };
+			_currentLaserLocation = getPosASL _laserTarget;
 			_laserLocation = [ (_laserLocation select 0) + (_currentLaserLocation select 0),
 								(_laserLocation select 1) + (_currentLaserLocation select 1),
 								(_laserLocation select 2) + (_currentLaserLocation select 2)
