@@ -1,12 +1,12 @@
 CLIENT_REQUEST_PERMISSION_TO_FIRE = {
-	[[player, _this], "SERVER_REQUEST_PERMISSION_TO_FIRE", false, false, false] call BIS_fnc_MP; 
+	[player, _this] remoteExec ["SERVER_REQUEST_PERMISSION_TO_FIRE", 2, false];
 };
 
 SERVER_REQUEST_PERMISSION_TO_FIRE = {
 	private["_unit", "_reloadDelay", "_payload"];
 	_unit = _this select 0;
 	_payload = _this select 1;
-	[[JtacCanFireSalvo, JtacReloadTimer, EPDJtacAquisitionGlobalModifier, _payload], "CLIENT_RECEIVE_PERMISSION_TO_FIRE", _unit, false, false] call BIS_fnc_MP;
+	[JtacCanFireSalvo, JtacReloadTimer, EPDJtacAquisitionGlobalModifier, _payload] remoteExec ["CLIENT_RECEIVE_PERMISSION_TO_FIRE", _unit, false];
 };
 
 CLIENT_RECEIVE_PERMISSION_TO_FIRE = {
@@ -62,7 +62,7 @@ CLIENT_RECEIVE_PERMISSION_TO_FIRE = {
 			];
 			hint "Rounds inbound, take cover! \n(It's safe to turn your laser off.)";
 			_firemission = format[(_payloadInformation select 2), _laserLocation];
-			[[player, _firemission, _reloadDelay], "SERVER_PERFORM_FIRE_MISSION", false, false, false] call BIS_fnc_MP; 
+			[player, _firemission, _reloadDelay] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 		} else {
 			hint format["Laser turned off. Targeting canceled"];
 		};
@@ -96,7 +96,7 @@ SERVER_PERFORM_FIRE_MISSION = {
 			JtacCanFireSalvo = true;		
 		};
 	} else {
-		[JtacReloadTimer, "CLIENT_ANOTHER_JTAC_FIRED", false, false, false] call BIS_fnc_MP; 
+		JtacReloadTimer remoteExec ["CLIENT_ANOTHER_JTAC_FIRED", _unit, false];
 	};
 };
 
