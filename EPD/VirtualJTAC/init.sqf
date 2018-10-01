@@ -43,7 +43,7 @@ if(!isDedicated) then {
 				_booleanActionAdd = false;
 			};
 
-			if (!_booleanActionAdd and !isNull _currentUav) then {
+			if (!_booleanActionAdd and !isNull _currentUav and (player getVariable ["JTAC", false])) then {
 				_booleanActionAdd = true;
 				_addActionedUav = getConnectedUAV player;
 				_actionNumber = (getConnectedUAV player) addaction [("<t color=""#27EE1F"">") + ("JTAC Salvos") + "</t>", { showCommandingMenu "#USER:JtacMainMenu";}, "", -10, false, true,"",'JtacAvailable && ((UAVControl getConnectedUAV player) select 1) == "GUNNER"'];
