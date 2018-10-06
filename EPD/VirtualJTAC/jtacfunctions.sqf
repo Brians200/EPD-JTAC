@@ -343,7 +343,7 @@ FIRE_MISSILES = {
 };
 
 PARSE_AVAILABLE_JTAC_ATTACKS = {
-	private ["_numJtacAttacks", "_jtackAttackI", "_bullets", "_shells", "_grenades", "_bombs", "_missiles", "_mines", "_nonlethal", "_bulletsCount"];
+	private ["_numJtacAttacks", "_jtackAttackI", "_bullets", "_shells", "_grenades", "_bombs", "_missiles", "_mines", "_nonlethal", "_bulletsCount", "_keyNumber"];
 
 	_bullets = [];
 	_shells = [];
@@ -389,6 +389,11 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		};
 	};
 	
+	JtacMainMenu = [
+		["EPD JTAC", true]
+	];
+	_keyNumber = 2;
+
 	_bulletsCount = count _bullets;
 	JtacBulletMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -402,7 +407,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};
-	
+
+	if (count JtacBulletMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Bullets", [_keyNumber], "#USER:JtacBulletMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
 	_bulletsCount = count _shells;
 	JtacShellMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -416,7 +426,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};
-	
+
+	if (count JtacShellMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Shells", [_keyNumber], "#USER:JtacShellMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
 	_bulletsCount = count _grenades;
 	JtacGrenadeMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -430,7 +445,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};
-	
+
+	if (count JtacGrenadeMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Grenades", [_keyNumber], "#USER:JtacGrenadeMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
 	_bulletsCount = count _bombs;
 	JtacBombsMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -444,7 +464,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};
-	
+
+	if (count JtacBombsMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Bombs", [_keyNumber], "#USER:JtacBombsMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
 	_bulletsCount = count _missiles;
 	JtacMissilesMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -457,6 +482,11 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		JtacMissilesMenu set [_bulletsI + 1,
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
+	};
+
+	if (count JtacMissilesMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Missile Barrage", [_keyNumber], "#USER:JtacMissilesMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
 	};
 
 	_bulletsCount = count _mines;
@@ -472,7 +502,12 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};
-	
+
+	if (count JtacMinesMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Mine Field", [_keyNumber], "#USER:JtacMinesMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
 	_bulletsCount = count _nonlethal;
 	JtacNonLethalMenu = [["JTAC Bullets", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -485,5 +520,10 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		JtacNonLethalMenu set [_bulletsI + 1, 
 			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
+	};
+
+	if (count JtacNonLethalMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Non Lethal", [_keyNumber], "#USER:JtacNonLethalMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
 	};
 };
