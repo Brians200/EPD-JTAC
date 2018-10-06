@@ -1,5 +1,7 @@
 # EPD-JTAC
-JTAC script for ARMA 3 
+JTAC script for ARMA 3
+
+More information on the forums here: https://forums.bohemia.net/forums/topic/218512-standalone-jtac-script
 
 # How to use
 1. Copy the EPD folder to your Mission Folder
