@@ -1,5 +1,3 @@
-EPDJtacAddTracerToProjectiles = true;
-
 if(isserver) then {
 	//If true, allows you to skip the cool down.
 	EPDJtacDebug = false;
