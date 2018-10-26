@@ -1,5 +1,12 @@
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacsettings.sqf";
-call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacfunctions.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Projectiles.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\EvenSpread.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Mines.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Bombs.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Rockets.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\GuidedMissile.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacattackparser.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacfirecontrol.sqf";
 
 call PARSE_AVAILABLE_JTAC_ATTACKS;
 
