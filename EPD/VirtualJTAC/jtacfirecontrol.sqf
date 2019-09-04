@@ -38,10 +38,10 @@ CLIENT_BEGIN_TARGETING = {
 
 CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 	private["_counterSleepTime", "_counter", "_targetAcquired", "_firemission", "_laserLocation", "_aquisitionGlobalModifier", "_payloadInformation"];
-	
+
 	_aquisitionGlobalModifier = _this select 0;
 	_payloadInformation = _this select 1;
-	
+
 	_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 	_reloadDelay = _payloadInformation select 1;
 	_counter = 0;
@@ -98,7 +98,9 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 	_aquisitionGlobalModifier = _this select 0;
 	_payloadInformation = _this select 1;
 	_reloadDelay = _payloadInformation select 1;
-	
+
+	_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
+
 	_laser = laserTarget player;
 	
 	_counter = 0;
@@ -116,7 +118,7 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 			//[_laser, "M_Titan_AT_long", 0 ] spawn FIRE_GUIDED_MISSILE;
 		};
 		
-		sleep .01;
+		sleep _counterSleepTime;
 	};
 };
 
@@ -125,9 +127,10 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 	_aquisitionGlobalModifier = _this select 0;
 	_payloadInformation = _this select 1;
 	_reloadDelay = _payloadInformation select 1;
+	_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 
 	_laser = laserTarget player;
-	_oneThird = (2.0/1.0);
+	_oneThird = (1.0/3.0);
 
 	_aimedAtTargetCounter = 0;
 	_notAimedAtTargetCounter = 0;
@@ -166,7 +169,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		};
 		hintSilent format["Current Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter,"%"];
 		
-		sleep .1;
+		sleep _counterSleepTime;
 	};
 };
 
