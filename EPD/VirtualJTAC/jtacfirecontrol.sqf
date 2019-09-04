@@ -131,6 +131,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 
 	_laser = laserTarget player;
 	_oneThird = (1.0/3.0);
+	_oneHalf = (1.0/2.0);
 
 	_aimedAtTargetCounter = 0;
 	_notAimedAtTargetCounter = 0;
@@ -155,9 +156,9 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		
 		if (_aimedAtCurrentTarget) then {
 			_aimedAtTargetCounter = _aimedAtTargetCounter + _oneThird;
-			_notAimedAtTargetCounter = 0;
+			_notAimedAtTargetCounter = 0.0;
 		} else {
-			_notAimedAtTargetCounter = _notAimedAtTargetCounter + 4;
+			_notAimedAtTargetCounter = _notAimedAtTargetCounter + _oneHalf;
 		};
 		
 		if (_notAimedAtTargetCounter >= 100) exitWith {hint "Target Lost. Locking Canceled";};
@@ -167,7 +168,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 			_firemission = format[(_payloadInformation select 2), _currentTarget];
 			[player, _firemission, _reloadDelay, [_currentTarget]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 		};
-		hintSilent format["Current Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter,"%"];
+		hintSilent format["Current Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter toFixed 2,"%"];
 		
 		sleep _counterSleepTime;
 	};
