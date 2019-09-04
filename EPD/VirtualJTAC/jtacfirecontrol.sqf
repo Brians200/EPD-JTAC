@@ -130,8 +130,8 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 	_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 
 	_laser = laserTarget player;
+	_oneQuarter = (1.0/4.0);
 	_oneThird = (1.0/3.0);
-	_oneHalf = (1.0/2.0);
 
 	_aimedAtTargetCounter = 0;
 	_notAimedAtTargetCounter = 0;
@@ -155,10 +155,10 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		};
 		
 		if (_aimedAtCurrentTarget) then {
-			_aimedAtTargetCounter = _aimedAtTargetCounter + _oneThird;
+			_aimedAtTargetCounter = _aimedAtTargetCounter + _oneQuarter;
 			_notAimedAtTargetCounter = 0.0;
 		} else {
-			_notAimedAtTargetCounter = _notAimedAtTargetCounter + _oneHalf;
+			_notAimedAtTargetCounter = _notAimedAtTargetCounter + _oneThird;
 		};
 		
 		if (_notAimedAtTargetCounter >= 100) exitWith {hint "Target Lost. Locking Canceled";};

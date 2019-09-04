@@ -95,7 +95,7 @@ availableJtacAttacks  = [
 		["ROCKETS", "Cruise Missile", .60, 600, "FIRE_ROCKETS", ["ammo_Missile_Cruise_01", 3, 3911.5, -17.04, 0.3, 0.3, 4, 1]],
 
 		["GUIDEDMISSILE", "Titan AT", .1, 540, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "laser"]],
-		["GUIDEDMISSILE", "Titan AT FnF", .01, 600, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "vehicle"]],
+		["GUIDEDMISSILE", "Titan AT FnF", .03, 600, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "vehicle"]],
 
 		["MINES", "APERS Mine", .30, 240, "LAY_MINE_FIELD", [["APERSMine"], 20, 20]],
 		["MINES", "APERS Bounding Mine", .30, 240, "LAY_MINE_FIELD", [["APERSBoundingMine"], 20, 20]],
