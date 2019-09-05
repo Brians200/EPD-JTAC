@@ -5,7 +5,7 @@ FIRE_GUIDED_MISSILE = {
 
     _targetPosition = getPosASL _target;
 
-    _incomingAngle = 90;//random 360;
+    _incomingAngle = random 360;
     _sourceHeight = 600;
     _source2dDistance = 1000;
     _sourceLocation = [(eyePos _target select 0) + (cos _incomingAngle) * _source2dDistance,
