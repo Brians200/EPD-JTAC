@@ -85,7 +85,7 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 		];
 		hint "Rounds inbound, take cover! \n(It's safe to turn your laser off.)";
 		_firemission = format[(_payloadInformation select 2), _laserLocation];
-		[player, _firemission, _reloadDelay, []] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
+		[player, _firemission, _reloadDelay, true, []] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 	} else {
 		hint format["Laser turned off. Targeting canceled"];
 	};
@@ -114,7 +114,7 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 			_firemission = format[(_payloadInformation select 2), _laser];
 			
 			//0 = _laser spawn {[_this select 0, "M_Titan_AT_long"] call FIRE_GUIDED_MISSILE;}
-			[player, _firemission, _reloadDelay, [_laser]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
+			[player, _firemission, _reloadDelay, false, [_laser]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 			//[_laser, "M_Titan_AT_long", 0 ] spawn FIRE_GUIDED_MISSILE;
 		};
 		
@@ -166,7 +166,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		if (_aimedAtTargetCounter >= 100) exitWith {
 			hint "Vehicle locked. It is safe to turn off your laser and take cover.";
 			_firemission = format[(_payloadInformation select 2), _currentTarget];
-			[player, _firemission, _reloadDelay, [_currentTarget]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
+			[player, _firemission, _reloadDelay, false, [_currentTarget]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 		};
 		hintSilent format["Current Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter toFixed 2,"%"];
 		
@@ -181,7 +181,8 @@ SERVER_PERFORM_FIRE_MISSION = {
 	_fireMission = _this select 1;
 	fireMission = compile _fireMission;
 	_reloadDelay = (_this select 2) * EPDJtacCoolDownGlobalModifier;
-	_extraParams = _this select 3;
+	_shouldPerformOnServer = _this select 3;
+	_extraParams = _this select 4;
 	
 	if (JtacCanFireSalvo) then {
 		JtacCanFireSalvo = false;
@@ -189,8 +190,13 @@ SERVER_PERFORM_FIRE_MISSION = {
 		if (!EPDJtacDebug) then {
 			sleep (5 + random 15);
 		};
-		//0 = _extraParams spawn compile _fireMission;
-		0 = [_extraParams, compile _fireMission] remoteExec ["spawn", _unit, false];
+
+		if (_shouldPerformOnServer) then {
+			0 = [_extraParams, compile _fireMission] remoteExec ["spawn", 2, false];
+		} else {
+			0 = [_extraParams, compile _fireMission] remoteExec ["spawn", _unit, false];
+		};
+
 		0 = [] spawn {
 			if(not EPDJtacDebug) then {
 				while {JtacReloadTimer > 0 } do {
