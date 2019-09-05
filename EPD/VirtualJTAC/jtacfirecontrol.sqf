@@ -55,7 +55,7 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 		_designatorName = "Laser Designator";
 		_laserTarget = laserTarget player;
 
-		hint format["%1", laserTarget (getConnectedUAV player)];
+		// format["%1", laserTarget (getConnectedUAV player)];
 
 		if(isNull _laserTarget and !isNull laserTarget (getConnectedUAV player)) then {
 			_laserTarget = laserTarget (getConnectedUAV player);
