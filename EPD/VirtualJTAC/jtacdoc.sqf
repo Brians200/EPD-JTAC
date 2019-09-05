@@ -72,15 +72,25 @@ Radial Spread: 20m<br/>
 Reload Time: 180 seconds<br/><br/>
 "]];
 
-player createDiaryRecord ["EPDJTAC", ["JTAC Missile Barrage", "
-The JTAC operator can fire a wide variety of missile barrages.<br/><br/>
+player createDiaryRecord ["EPDJTAC", ["JTAC Guided Missiles", "
+The JTAC operator can fire a wide variety of guided missiles.<br/><br/>
 
-Vorona 130mm HEAT<br/>
-Should kill a vehicle if you are lucky enough to get a direct hit. Mostly useful for disabling tires and tracks otherwise.<br/>
-Number of Rounds: 6<br/>
-Radial Spread: 5m<br/>
-Target Acquisition Time: 40 seconds<br/>
-Reload Time: 300 seconds<br/><br/>
+Titan AT<br/>
+Calls in a Titan AT missile that will adjust its aiming to hit where ever you are aiming the laser designator.<br/>
+Number of Rounds: 1<br/>
+Target Acquisition Time: 10 seconds<br/>
+Reload Time: 540 seconds<br/><br/>
+
+Titan AT FnF<br/>
+Calls in a Titan AT missile in a fire and forget mode. Missile will automatically track the vehicle that it was locked on.<br/>
+Number of Rounds: 1<br/>
+Target Acquisition Time: 14 seconds<br/>
+Reload Time: 600 seconds<br/><br/>
+
+"]];
+
+player createDiaryRecord ["EPDJTAC", ["JTAC Rocket Barrage", "
+The JTAC operator can fire a wide variety of rocket barrages.<br/><br/>
 
 84mm MAAWS 44 HE<br/>
 Number of Rounds: 7<br/>

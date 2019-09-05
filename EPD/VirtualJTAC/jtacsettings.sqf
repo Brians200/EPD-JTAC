@@ -10,11 +10,11 @@ if(isserver) then {
 
 };
 
-//The chance that a guided missile will fail and blow up in the air.
-EPDJtacGuidedMissileExplosiveFailureChance = 5%;
+//The percent chance that a guided missile will fail and blow up in the air.
+EPDJtacGuidedMissileExplosiveFailureChance = 5;
 
-//The chance that a guided missile will lose tracking and just travel in a straight line.
-EPDJtacGuidedMissileLostTrackingFailureChance = 5%;
+//The percent chance that a guided missile will lose tracking and just travel in a straight line.
+EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 
 /*
 	["payloadCategory", "displayName", "acquireRate", "reloadTime", "projectileFiringMethod", [firing method parameters...]]
