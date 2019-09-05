@@ -1,11 +1,11 @@
 FIRE_GUIDED_MISSILE = {
-    private["_target", "_ammoClass", "_missilePosition", "_targetPosition", "_incomingAngle", "_sourceHeight", "_source2dDistance", "_sourceLocation", "_roll", "_missile", "_posDiff", "_dX", "_dY", "_dZ", "_yaw", "_pitch", "_oldYaw", "_oldPitch"];
+    private["_target", "_ammoClass", "_missilePosition", "_targetPosition", "_incomingAngle", "_sourceHeight", "_source2dDistance", "_sourceLocation", "_roll", "_missile", "_posDiff", "_dX", "_dY", "_dZ", "_yaw", "_pitch", "_oldYaw", "_oldPitch", "_missileWillExplode", "_missileExplosionDistance", "_guidanceWillFail", "_guidanceFailureDistance"];
     _target = _this select 0;
     _ammoClass = _this select 1;
 
     _targetPosition = getPosASL _target;
 
-    _incomingAngle = random 360;
+    _incomingAngle = 90;//random 360;
     _sourceHeight = 600;
     _source2dDistance = 1000;
     _sourceLocation = [(eyePos _target select 0) + (cos _incomingAngle) * _source2dDistance,
@@ -40,23 +40,67 @@ FIRE_GUIDED_MISSILE = {
 	
     sleep 0.01;
 
+	_missileWillExplode = false;
+	_missileExplosionDistance = 0;
+	if (EPDJtacGuidedMissileExplosiveFailureChance > random 100) then {
+		_missileWillExplode = true;
+		_missileExplosionDistance = 200 + random 50;
+	};
+
+	_guidanceWillFail = false;
+	_guidanceFailureDistance = 0;
+
+	if (not _missileWillExplode and EPDJtacGuidedMissileLostTrackingFailureChance > random 100) then {
+		_guidanceWillFail = true;
+		_guidanceFailureDistance = 150 + random 400;
+	};
+
     while {
         not(isNull _missile)
     }
     do {
-        private["_yawDiff", "_pitchDiff", "_missileVelocity"];
-		
+        private["_yawDiff", "_pitchDiff", "_missileVelocity", "_currentPositionDiff"];
+
 		if (isNull _target) exitWith { hint "Target Lost. Guidance turned off"};
-		
+
         _missilePosition = visiblePositionASL _missile;
         _targetPosition = eyePos _target;
 
+		_currentPositionDiff = _missilePosition vectorDistance _targetPosition;
+
+		if (_missileWillExplode and _currentPositionDiff < _missileExplosionDistance) exitWith {
+
+			private ["_bomb"];
+			_bomb = "IEDUrbanSmall_Remote_Ammo" createVehicle getPos _missile;
+			_bomb setDamage 1;
+			sleep .1;
+			"HelicopterExploBig" createVehicle (getpos _missile);
+			sleep .2;
+			"HelicopterExploSmall" createVehicle (getpos _missile);
+			sleep .1;
+			"HelicopterExploBig" createVehicle (getpos _missile);
+			sleep .05;
+			"HelicopterExploSmall" createVehicle (getpos _missile);
+			sleep .03;
+			"HelicopterExploBig" createVehicle (getpos _missile);
+			sleep .01;
+			"HelicopterExploBig" createVehicle (getpos _missile);
+			_bomb = "IEDUrbanBig_Remote_Ammo" createVehicle getPos _missile;
+			deleteVehicle _missile;
+			_bomb setDamage 1;
+
+			hint "The missile malfunctioned!"
+		};
+
+		if (_guidanceWillFail and _currentPositionDiff < _guidanceFailureDistance) exitWith {
+			hint "The missile's guidance failed!"
+		};
+
         if (speed _target > 0) then {
-            private["_currentPositionDiff", "_targetPositionMultiplier", "_velocity"];
+            private["_targetPositionMultiplier", "_velocity"];
             // Rough first order integration to predict where the target is going to be when the missile hits.
             // This allows the missile to attempt to meet the target at that point, rather than trying to play catch up.
             _velocity = velocity _target;
-            _currentPositionDiff = _missilePosition vectorDistance _targetPosition;
             _targetPositionMultiplier = 0.95 * _currentPositionDiff / vectorMagnitude(velocity _missile vectorDiff _velocity);
             _targetPosition = _targetPosition vectorAdd(_velocity vectorMultiply _targetPositionMultiplier);
         };

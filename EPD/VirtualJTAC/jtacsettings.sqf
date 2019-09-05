@@ -7,7 +7,14 @@ if(isserver) then {
 
 	//The acquireRate for every fire mission will be multiplied by this much. Numbers bigger than 1 will increase it. Numbers between 0-1 will shorten it. Individual fire missions can be modified in the array below.
 	EPDJtacAquisitionGlobalModifier = 1.0;
+
 };
+
+//The chance that a guided missile will fail and blow up in the air.
+EPDJtacGuidedMissileExplosiveFailureChance = 5%;
+
+//The chance that a guided missile will lose tracking and just travel in a straight line.
+EPDJtacGuidedMissileLostTrackingFailureChance = 5%;
 
 /*
 	["payloadCategory", "displayName", "acquireRate", "reloadTime", "projectileFiringMethod", [firing method parameters...]]
