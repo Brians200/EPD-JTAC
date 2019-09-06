@@ -18,18 +18,16 @@ SHOOT_PROJECTILES = {
 	_minTimeBetween = _projectiles select 5;
 	_maxRandomTime  = _projectiles select 6;
 	
-	_sourceLocation = [ (_targetLocation select 0) + (cos _incomingAngle) * _source2dDistance,
-					(_targetLocation select 1) + (sin _incomingAngle) * _source2dDistance,
-					_sourceHeight + (_targetLocation select 2)];
-					
+	_sourceLocation = _targetLocation getPos [_source2dDistance, _incomingAngle];
+	_sourceLocation set [2, _sourceHeight + (_targetLocation select 2)];
+
 	for "_i" from 0 to _numberToSend - 1 do{
-		private ["_targetLocationRandom", "_targetSourceDifference", "_velocity", "_projectile"];
+		private ["_targetLocationRandom", "_targetSourceDifference", "_velocity", "_projectile", "_spreadNormalAmount"];
 		
 		//Add some inaccurary...
-		_targetLocationRandom = [ (_targetLocation select 0) + (random 2*_spreadRadial) - _spreadRadial,
-								(_targetLocation select 1) + (random 2*_spreadRadial) - _spreadRadial,
-								(_targetLocation select 2) + (random 2*_spreadNormal) - _spreadNormal
-		];
+		_targetLocationRandom = _targetLocation getpos [_spreadRadial * sqrt random 1, random 360];
+		_spreadNormalAmount = [-_spreadNormal, _spreadNormal] call BIS_fnc_randomNum;
+		_targetLocationRandom set [2, (_targetLocation select 2) + _spreadNormalAmount];
 		
 		_targetSourceDifference =  (_targetLocationRandom vectorDiff _sourceLocation);
 		_targetSourceDifference set [2, (_targetSourceDifference select 2) + _verticalOffset];
