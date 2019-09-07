@@ -17,9 +17,8 @@ FIRE_ROCKETS = {
 	_minTimeBetween = _projectiles select 6;
 	_maxRandomTime  = _projectiles select 7;
 
-	_sourceLocation = [ (_targetLocation select 0) + (cos _incomingAngle) * _source2dDistance,
-					(_targetLocation select 1) + (sin _incomingAngle) * _source2dDistance,
-					_sourceHeight + (_targetLocation select 2)];
+	_sourceLocation = _targetLocation getPos[_source2dDistance, _incomingAngle];
+	_sourceLocation set [2, _sourceHeight + (_targetLocation select 2)];
 
 	for "_i" from 0 to _numberToSend - 1 do{
 		private ["_targetLocationRandom", "_velocity", "_rocket", "_targetSourceDifference", "_pitchRandom", "_yaw", "_roll"];
@@ -32,13 +31,12 @@ FIRE_ROCKETS = {
 		_rocket = _projectileClassName createVehicle _sourceLocation;
 		_rocket setPosASL  _sourceLocation;
 
-		_yaw = 270 - _incomingAngle + (random (2*_yawVariance)) - _yawVariance;
+		_yaw = 180 + _incomingAngle + ([-_yawVariance, _yawVariance] call BIS_fnc_randomNum);
 		_roll = 0;
-		_pitchRandom = _pitch + (random (2*_pitchVariance)) - _pitchVariance;
-		_rocket setVectorDirAndUp [
-			[ sin _yaw * cos _pitchRandom,cos _yaw * cos _pitchRandom,sin _pitchRandom],
-			[ [ sin _roll,-sin _pitchRandom,cos _roll * cos _pitchRandom],-_yaw] call BIS_fnc_rotateVector2D
-		];
+		_pitchRandom = _pitch + ([-_pitchVariance, _pitchVariance] call BIS_fnc_randomNum);
+
+		_rocket setDir(_yaw);
+		[_rocket, _pitchRandom, _roll] call BIS_fnc_setPitchBank;
 
 		sleep (_minTimeBetween + random _maxRandomTime);
 	};
