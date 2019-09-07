@@ -18,16 +18,12 @@ EVEN_SPREAD_PROJECTILES = {
 				
 		if(_i < 3) then {
 			_loopRadius = _spreadRadial / 2;
-			_targetLocationRandom = [ (_targetLocation select 0) + cos(_initialAngle + 120*(_i)) * _loopRadius,
-									(_targetLocation select 1) + sin(_initialAngle + 120*(_i)) * _loopRadius,
-									_sourceHeight
-									];
+			_targetLocationRandom = _targetLocation getPos[_loopRadius, _initialAngle + 120*_i];
+			_targetLocationRandom set [2, _sourceHeight];
 		} else {
 			_loopRadius = _spreadRadial;
-			_targetLocationRandom = [ (_targetLocation select 0) + cos(_initialAngle + 40*(_i-3)) * _loopRadius,
-									(_targetLocation select 1) + sin(_initialAngle + 40*(_i-3)) * _loopRadius,
-									_sourceHeight
-									];
+			_targetLocationRandom = _targetLocation getPos[_loopRadius, _initialAngle + 40*(_i-3)];
+			_targetLocationRandom set [2, _sourceHeight];
 		};
 			
 		_velocity = [0,0,_downwardSpeed];
