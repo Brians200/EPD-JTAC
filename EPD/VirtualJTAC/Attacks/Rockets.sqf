@@ -1,13 +1,14 @@
 FIRE_ROCKETS = {
 	private ["_incomingAngle", "_sourceHeight", "_targetLocation", "_projectiles", "_projectileClassName", "_numberToSend", "_source2dDistance", "_pitch", "_pitchVariance", "_yawVariance", "_minTimeBetween", "_maxRandomTime", "_sourceLocation", "_i"];
-	
+
 	if(!isserver) exitwith{};
-	
+
 	_incomingAngle = random 360;
 	_sourceHeight = 1300;
 
 	_targetLocation = _this select 0;
-	_projectiles = _this select 1;
+	_incomingAngle = _this select 1;
+	_projectiles = _this select 2;
 	_projectileClassName = _projectiles select 0;
 	_numberToSend = _projectiles select 1;
 	_source2dDistance = _projectiles select 2;
@@ -20,7 +21,7 @@ FIRE_ROCKETS = {
 	_sourceLocation = _targetLocation getPos[_source2dDistance, _incomingAngle];
 	_sourceLocation set [2, _sourceHeight + (_targetLocation select 2)];
 
-	for "_i" from 0 to _numberToSend - 1 do{
+	for "_i" from 0 to _numberToSend - 1 do {
 		private ["_targetLocationRandom", "_velocity", "_rocket", "_targetSourceDifference", "_pitchRandom", "_yaw", "_roll"];
 
 		_targetSourceDifference =  (_targetLocation vectorDiff _sourceLocation);

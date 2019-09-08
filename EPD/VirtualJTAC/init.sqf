@@ -13,6 +13,7 @@ call PARSE_AVAILABLE_JTAC_ATTACKS;
 if(!isDedicated) then {
 	//Client Variable to show and hide the addAction
 	JtacAvailable = true;
+	JtacIncomingAngle = "RANDOM";
 
 	//Wait for JIP to load in...
 	waitUntil {sleep .5; !(isNull player)};

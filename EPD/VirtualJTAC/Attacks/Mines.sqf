@@ -7,16 +7,16 @@ ROTATE_PLACED_MINE = {
 
 LAY_MINE_FIELD = {
 	private ["_targetLocation", "_mineClassNames", "_spreadRadial", "_numberToSend", "_i"];
-	
+
 	if(!isserver) exitwith{};
 
 	_targetLocation = _this select 0;
 	_targetLocation set [2, 0]; //mines belong on the ground
-	_mineClassNames = (_this select 1) select 0;
-	_numberToSend = (_this select 1) select 1;
-	_spreadRadial = (_this select 1) select 2;
+	_mineClassNames = (_this select 2) select 0;
+	_numberToSend = (_this select 2) select 1;
+	_spreadRadial = (_this select 2) select 2;
 
-	for "_i" from 0 to _numberToSend - 1 do{
+	for "_i" from 0 to _numberToSend - 1 do {
 		private ["_mine", "_direction"];
 
 		_mine = createMine [(_mineClassNames call BIS_fnc_selectRandom), _targetLocation, [], _spreadRadial];
@@ -25,7 +25,7 @@ LAY_MINE_FIELD = {
 		_mine setPos getPos _mine;
 		//Add a little effect to the new mines so it is obvious they have landed.
 		"CMflareAmmo" createVehicle getpos _mine;
-		
+
 		sleep (.1 + random .5);
 	};
 };

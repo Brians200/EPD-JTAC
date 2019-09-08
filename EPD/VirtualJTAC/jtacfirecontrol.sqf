@@ -84,7 +84,7 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 						(_laserLocation select 2) / _counter
 		];
 		hint "Rounds inbound, take cover! \n(It's safe to turn your laser off.)";
-		_firemission = format[(_payloadInformation select 2), _laserLocation];
+		_firemission = format[(_payloadInformation select 2), _laserLocation, call CLIENT_GET_DIRECTION];
 		[player, _firemission, _reloadDelay, true, []] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 	} else {
 		hint format["Laser turned off. Targeting canceled"];
@@ -111,7 +111,7 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 		
 		if (_counter >= 100) exitWith {
 			hint "Missile is fired. Targeting your laser.";
-			_firemission = format[(_payloadInformation select 2), _laser];
+			_firemission = format[(_payloadInformation select 2), _laser, call CLIENT_GET_DIRECTION];
 			
 			//0 = _laser spawn {[_this select 0, "M_Titan_AT_long"] call FIRE_GUIDED_MISSILE;}
 			[player, _firemission, _reloadDelay, false, [_laser]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
@@ -165,7 +165,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		
 		if (_aimedAtTargetCounter >= 100) exitWith {
 			hint "Vehicle locked. It is safe to turn off your laser and take cover.";
-			_firemission = format[(_payloadInformation select 2), _currentTarget];
+			_firemission = format[(_payloadInformation select 2), _currentTarget, call CLIENT_GET_DIRECTION];
 			[player, _firemission, _reloadDelay, false, [_currentTarget]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 		};
 		hintSilent format["Current Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter toFixed 2,"%"];
@@ -174,6 +174,19 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 	};
 };
 
+CLIENT_GET_DIRECTION = {
+	switch (JtacIncomingAngle) do {
+		case "N": { 0 };
+		case "NE": { 45 };
+		case "E": { 90 };
+		case "SE": { 135 };
+		case "S": { 180 };
+		case "SW": { 225 };
+		case "W": { 270 };
+		case "NW": { 315 };
+		default { random 360 };
+	};
+};
 
 SERVER_PERFORM_FIRE_MISSION = {
 	private ["_unit", "_fireMission", "_reloadDelay"];

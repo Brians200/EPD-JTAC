@@ -1,14 +1,14 @@
 DROP_BOMBS = {
 	private ["_incomingAngle", "_sourceHeight", "_source2dDistance", "_targetLocation", "_projectiles", "_projectileClassName", "_numberToSend", "_bombSpeed", "_speedVariance", "_spreadRadial", "_minTimeBetween", "_maxRandomTime", "_sourceLocation", "_i"];
-	
+
 	if(!isserver) exitwith{};
-	
-	_incomingAngle = random 360;
+
 	_sourceHeight = 1300;
 	_source2dDistance = 3919.25;
-	
+
 	_targetLocation = _this select 0;
-	_projectiles = _this select 1;
+	_incomingAngle = _this select 1;
+	_projectiles = _this select 2;
 	_projectileClassName = _projectiles select 0;
 	_numberToSend = _projectiles select 1;
 	_bombSpeed = _projectiles select 2;
@@ -20,7 +20,7 @@ DROP_BOMBS = {
 	_sourceLocation = _targetLocation getPos[_source2dDistance, _incomingAngle];
 	_sourceLocation set [2, _sourceHeight + (_targetLocation select 2)];
 
-	for "_i" from 0 to _numberToSend - 1 do{
+	for "_i" from 0 to _numberToSend - 1 do {
 		private ["_spawnLocation", "_targetSourceDifference", "_bomb", "_angle", "_velocity", "_bombSpeedWithVariance"];
 
 		_spawnLocation = _sourceLocation getPos[_spreadRadial * sqrt random 1, random 360];
