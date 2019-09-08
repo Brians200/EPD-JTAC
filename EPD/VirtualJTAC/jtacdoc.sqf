@@ -232,6 +232,13 @@ Orthogonal Spread: 2m<br/>
 Target Acquisition Time: 10 seconds<br/>
 Reload Time: 60 seconds<br/><br/>
 
+20mm HE<br/>
+Number of Rounds: 15<br/>
+Radial Spread: 6m<br/>
+Orthogonal Spread: 5m<br/>
+Target Acquisition Time: 10 seconds<br/>
+Reload Time: 60 seconds<br/><br/>
+
 30mm HE<br/>
 Number of Rounds: 15<br/>
 Radial Spread: 8m<br/>
@@ -246,11 +253,18 @@ Orthogonal Spread: 5m<br/>
 Target Acquisition Time: 14 seconds<br/>
 Reload Time: 120 seconds<br/><br/>
 
-40mm GPR<br/>
+40mm HEDP<br/>
 Number of Rounds: 6<br/>
 Radial Spread: 16m<br/>
 Orthogonal Spread: 5m<br/>
 Target Acquisition Time: 16 seconds<br/>
+Reload Time: 150 seconds<br/><br/>
+
+40mm HE<br/>
+Number of Rounds: 6<br/>
+Radial Spread: 18m<br/>
+Orthogonal Spread: 5m<br/>
+Target Acquisition Time: 18 seconds<br/>
 Reload Time: 150 seconds<br/><br/>
 "]];
 

@@ -76,18 +76,16 @@ EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 
 availableJtacAttacks  = [
 		["BULLETS", "20mm", .10, 60, "SHOOT_PROJECTILES", ["B_20mm", 105.6, 20, 4, 2, .05, .05]],
+		["BULLETS", "20mm HE", .10, 60, "SHOOT_PROJECTILES", ["G_20mm_HE", 177.1, 15, 6, 5, .1, .1]],
 		["BULLETS", "30mm HE", .12, 90, "SHOOT_PROJECTILES", ["B_30mm_HE", 43.7, 15, 8, 2, .2, .2]],
 		["BULLETS", "35mm AA", .14, 120, "SHOOT_PROJECTILES", ["B_35mm_AA", 57.5, 10, 16, 5, .4, .4]],
-		["BULLETS", "40mm GPR", .16, 150, "SHOOT_PROJECTILES", ["B_40mm_GPR", 70.9, 6, 16, 5, .6, .6]],
+		["BULLETS", "40mm HEDP", .16, 150, "SHOOT_PROJECTILES", ["G_40mm_HEDP", 177.1, 6, 16, 5, .5, .6]],
+		["BULLETS", "40mm HE", .16, 150, "SHOOT_PROJECTILES", ["G_40mm_HE", 177.1, 6, 18, 5, .5, .6]],
 
 		["SHELLS", "82mm AMOS", .18, 180, "SHOOT_PROJECTILES", ["Sh_82mm_AMOS", 23.9, 5, 20, 5, 1, .5]],
 		["SHELLS", "120mm HE", .20, 210, "SHOOT_PROJECTILES", ["Sh_120mm_HE", 37.4, 3, 25, 8, 1, 1]],
 		["SHELLS", "155mm AMOS", .22, 240, "SHOOT_PROJECTILES", ["Sh_155mm_AMOS", 23.9, 2, 30, 10, 2, 1]],
 		["SHELLS", "155mm CLUSTER", .24, 270, "SHOOT_PROJECTILES", ["Cluster_155mm_AMOS", 23.9, 1, 2, 2, 2, 1]],
-
-		["GRENADES", "20mm HE", .10, 60, "SHOOT_PROJECTILES", ["G_20mm_HE", 177.1, 10, 16, 5, .5, .5]],
-		["GRENADES", "40mm HE", .16, 150, "SHOOT_PROJECTILES", ["G_40mm_HE", 177.1, 6, 18, 8, .5, 1]],
-		["GRENADES", "40mm HEDP", .16, 150, "SHOOT_PROJECTILES", ["G_40mm_HEDP", 177.1, 6, 18, 8, .5, 1]],
 
 		["BOMBS", "250lb SDB", .40, 300, "DROP_BOMBS", ["ammo_Bomb_SDB", 1, 250, 0.125, 2, 0, 0]],
 		["BOMBS", "500lb GBU12", .44, 360, "DROP_BOMBS", ["Bomb_03_F", 1, 223.5, 1, 10, 0, 0]],
@@ -111,6 +109,8 @@ availableJtacAttacks  = [
 		["MINES", "SLAM Directional Mine", .30, 300, "LAY_MINE_FIELD", [["SLAMDirectionalMine"], 20, 20]],
 		["MINES", "Anti-Vehicle Mix", .30, 300, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
 		["MINES", "Demine", .30, 180, "EVEN_SPREAD_PROJECTILES", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
+
+		["STRAFINGRUN", "20mm - 50 meters", .10, 60, "STRAFING_RUN", ["B_20mm", 105.6, 50, 50, 4, .005, .005]],
 
 		["NONLETHAL", "Red, White, and Blue", .10, 30, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
 		["NONLETHAL", "White Wall Medium", .12, 60, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],

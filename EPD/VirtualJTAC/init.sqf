@@ -5,6 +5,7 @@ call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Mines.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Bombs.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\Rockets.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\GuidedMissile.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\StrafingRun.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacattackparser.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacfirecontrol.sqf";
 

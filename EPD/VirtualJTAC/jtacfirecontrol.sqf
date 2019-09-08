@@ -217,10 +217,21 @@ SERVER_PERFORM_FIRE_MISSION = {
 					sleep 1;
 				};
 			};
-			JtacCanFireSalvo = true;		
+			JtacCanFireSalvo = true;
+
+			{
+				[] remoteExec ["CLIENT_RELOAD_FINISHED", _x, false];
+			} forEach allPlayers;
+
 		};
 	} else {
 		JtacReloadTimer remoteExec ["CLIENT_ANOTHER_JTAC_FIRED", _unit, false];
+	};
+};
+
+CLIENT_RELOAD_FINISHED = {
+	if (player getVariable ["JTAC",false] ) then {
+		["JtacReloadNotification", ["JTAC: Guns have reloaded"]] call BIS_fnc_showNotification;
 	};
 };
 
