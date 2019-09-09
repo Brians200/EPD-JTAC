@@ -83,6 +83,25 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		_keyNumber = _keyNumber + 1;
 	};
 
+	_bulletsCount = count _strafingRun;
+	JtacStrafingRunMenu = [["JTAC Strafing Run", true]];
+	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private ["_currentBullet", "_innerExpressionString"];
+		_currentBullet = _strafingRun select _bulletsI;
+		_innerExpressionString = format ["[[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
+								"%1, %2," +
+								format["%1", _currentBullet select 4] +
+								format["] call %1;'], 'average'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
+		JtacStrafingRunMenu set [_bulletsI + 1,
+			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
+		];
+	};
+
+	if (count JtacStrafingRunMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Strafing Run", [_keyNumber], "#USER:JtacStrafingRunMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
 	_bulletsCount = count _bombs;
 	JtacBombsMenu = [["JTAC Bombs", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
@@ -156,25 +175,6 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 
 	if (count JtacMinesMenu > 1) then {
 		JtacMainMenu = JtacMainMenu + [["Mine Field", [_keyNumber], "#USER:JtacMinesMenu", -5, [["expression", ""]], "1", "1"]];
-		_keyNumber = _keyNumber + 1;
-	};
-
-	_bulletsCount = count _strafingRun;
-	JtacStrafingRunMenu = [["JTAC Strafing Run", true]];
-	for "_bulletsI" from 0 to _bulletsCount -1 do {
-		private ["_currentBullet", "_innerExpressionString"];
-		_currentBullet = _strafingRun select _bulletsI;
-		_innerExpressionString = format ["[[%1, %2,'[", _currentBullet select 1, _currentBullet select 2] +
-								"%1, %2," +
-								format["%1", _currentBullet select 4] +
-								format["] call %1;'], 'average'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 3];
-		JtacStrafingRunMenu set [_bulletsI + 1,
-			[_currentBullet select 0, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
-		];
-	};
-
-	if (count JtacStrafingRunMenu > 1) then {
-		JtacMainMenu = JtacMainMenu + [["Strafing Run", [_keyNumber], "#USER:JtacStrafingRunMenu", -5, [["expression", ""]], "1", "1"]];
 		_keyNumber = _keyNumber + 1;
 	};
 

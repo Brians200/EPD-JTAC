@@ -231,7 +231,7 @@ SERVER_PERFORM_FIRE_MISSION = {
 
 CLIENT_RELOAD_FINISHED = {
 	if (player getVariable ["JTAC",false] ) then {
-		["JtacReloadNotification", ["JTAC: Guns have reloaded"]] call BIS_fnc_showNotification;
+		["JtacReloadNotification", ["Ready to fire!"]] call BIS_fnc_showNotification;
 	};
 };
 

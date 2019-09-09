@@ -27,7 +27,7 @@ EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 
 	reloadTime - Time until the guns can fire again.
 	
-	projectileFiringMethod - One of "SHOOT_PROJECTILES", "DROP_BOMBS", "FIRE_ROCKETS", "EVEN_SPREAD_PROJECTILES". Determines which method will be used to send the payload to the target.
+	projectileFiringMethod - One of "SHOOT_PROJECTILES", "DROP_BOMBS", "FIRE_ROCKETS", "EVEN_SPREAD_PROJECTILES", "STRAFING_RUN_ROCKET", "STRAFING_RUN_PROJECTILE", "LAY_MINE_FIELD". Determines which method will be used to send the payload to the target.
 	
 		SHOOT_PROJECTILES - Traditional technique of sending a projectile at a target. Projectile will be spawned about 2.2km away and flung towards the target.
 			parameters - [_projectileClassName, _verticalOffset, _numberToSend, _spreadRadial, _spreadNormal, _minTimeBetween, _maxRandomTime]
@@ -52,11 +52,33 @@ EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 		FIRE_ROCKETS - Spawns a missile. Sets the correct orientation and sets the correct model orientation.
 			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
 				_projectileClassName - Classname of the projectile to use.
-				_numberToSend - How many bombs to drop.
+				_numberToSend - How many rockets to fire.
 				_horizontalDistance - How far away the missile spawns.
 				_pitch - The pitch the model must be angled to to hit.
 				_pitchVariance - How much the pitch can be varied, This will cause the missile to undershoot or overshoot.
 				_yawVariance - How much the yaw can be varied, this will cause the missile to land to the left or right.
+				_minTimeBetween - Minimum time between shots.
+				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+
+		STRAFING_RUN_ROCKET - Spawns a run of rockets.
+			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
+				_projectileClassName - Classname of the projectile to use.
+				_numberToSend - How many rockets to fire.
+				_distanceToStrafe - How far the run should go.
+				_horizontalDistance - How far away the missile spawns.
+				_pitch - The pitch the model must be angled to to hit.
+				_spread - How many meters in each direction the rockets can land from their desired location.
+				_minTimeBetween - Minimum time between shots.
+				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+
+		STRAFING_RUN_PROJECTILE - Spawns a run of projectiles.
+			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
+				_projectileClassName - Classname of the projectile to use.
+				_verticalOffset - How many meters to aim up over the top of the target so it can hit the target.
+				_numberToSend - How many rockets to fire.
+				_distanceToStrafe - How far the run should go.
+				_horizontalDistance - How far away the missile spawns.
+				_spread - How many meters in each direction the rockets can land from their desired location.
 				_minTimeBetween - Minimum time between shots.
 				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
 
@@ -110,7 +132,12 @@ availableJtacAttacks  = [
 		["MINES", "Anti-Vehicle Mix", .30, 300, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
 		["MINES", "Demine", .30, 180, "EVEN_SPREAD_PROJECTILES", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
 
-		["STRAFINGRUN", "20mm - 50 meters", .10, 60, "STRAFING_RUN", ["B_20mm", 105.6, 50, 50, 4, .005, .005]],
+		["STRAFINGRUN", "20mm - 50 meters", .12, 60, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 38, 50, 4, .005, .005]],
+		["STRAFINGRUN", "20mm - 100 meters", .15, 75, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 75, 100, 4, .005, .005]],
+		["STRAFINGRUN", "Dagger - 50 meters", .30, 400, "STRAFING_RUN_ROCKET", ["M_AT", 6, 50, 3000, -20.98, 6, .1, .2]],
+		["STRAFINGRUN", "Dagger - 100 meters", .35, 440, "STRAFING_RUN_ROCKET", ["M_AT", 12, 100, 3000, -20.98, 6, .1, .2]],
+		["STRAFINGRUN", "Shrieker HE - 50 meters", .30, 400, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 6, 50, 3000, -20.467, 6, .1, .2]],
+		["STRAFINGRUN", "Shrieker HE - 100 meters", .35, 440, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 12, 100, 3000, -20.467, 6, .1, .2]],
 
 		["NONLETHAL", "Red, White, and Blue", .10, 30, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
 		["NONLETHAL", "White Wall Medium", .12, 60, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],

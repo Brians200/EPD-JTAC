@@ -159,32 +159,40 @@ Reload Time: 600 seconds<br/><br/>
 
 "]];
 
-player createDiaryRecord ["EPDJTAC", ["JTAC Grenades", "
-The JTAC operator can fire a wide variety of grenades.<br/><br/>
-Radial spread is how far from the target the grenades can land, forming a circle. <br/>
-Orthogonal spread is how far the center of the circle can be moved in the direction the guns are firing from, forming an oval. <br/><br/>
+player createDiaryRecord ["EPDJTAC", ["JTAC Strafing Run", "
+The JTAC operator can fire a wide variety of strafing runs.<br/><br/>
 
-20mm HE<br/>
-Number of Rounds: 10<br/>
-Radial Spread: 16m<br/>
-Orthogonal Spread: 5m<br/>
-Target Acquisition Time: 10 seconds<br/>
+20mm - 50 meters<br/>
+Number of Rounds: 38<br/>
+Run Distance: 50 meters<br/>
+Target Acquisition Time: 12 seconds<br/>
 Reload Time: 60 seconds<br/><br/>
 
-40mm HE<br/>
-Number of Rounds: 6<br/>
-Radial Spread: 18m<br/>
-Orthogonal Spread: 6m<br/>
-Target Acquisition Time: 18 seconds<br/>
-Reload Time: 150 seconds<br/><br/>
+20mm - 100 meters<br/>
+Number of Rounds: 75<br/>
+Run Distance: 100 meters<br/>
+Target Acquisition Time: 15 seconds<br/>
+Reload Time: 75 seconds<br/><br/>
 
-40mm HEDP<br/>
-Number of Rounds: 6<br/>
-Radial Spread: 16m<br/>
-Radial Spread: 16m<br/>
-Orthogonal Spread: 6m<br/>
-Target Acquisition Time: 16 seconds<br/>
-Reload Time: 150 seconds<br/><br/>
+Dagger - 50 meters<br/>
+Number of Rockets: 6<br/>
+Run Distance: 50 meters<br/>
+Reload Time: 400 seconds<br/><br/>
+
+Dagger - 100 meters<br/>
+Number of Rockets: 12<br/>
+Run Distance: 100 meters<br/>
+Reload Time: 440 seconds<br/><br/>
+
+Shrieker HE - 50 meters<br/>
+Number of Rockets: 6<br/>
+Run Distance: 50 meters<br/>
+Reload Time: 400 seconds<br/><br/>
+
+Shrieker HE - 100 meters<br/>
+Number of Rockets: 12<br/>
+Run Distance: 100 meters<br/>
+Reload Time: 440 seconds<br/><br/>
 "]];
 
 player createDiaryRecord ["EPDJTAC", ["JTAC Shells", "

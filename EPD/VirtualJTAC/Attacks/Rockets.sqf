@@ -3,7 +3,6 @@ FIRE_ROCKETS = {
 
 	if(!isserver) exitwith{};
 
-	_incomingAngle = random 360;
 	_sourceHeight = 1300;
 
 	_targetLocation = _this select 0;
@@ -22,12 +21,7 @@ FIRE_ROCKETS = {
 	_sourceLocation set [2, _sourceHeight + (_targetLocation select 2)];
 
 	for "_i" from 0 to _numberToSend - 1 do {
-		private ["_targetLocationRandom", "_velocity", "_rocket", "_targetSourceDifference", "_pitchRandom", "_yaw", "_roll"];
-
-		_targetSourceDifference =  (_targetLocation vectorDiff _sourceLocation);
-        _targetSourceDifference set [2,0];
-
-		_targetSourceDifference = vectorNormalized _targetSourceDifference;
+		private ["_targetLocationRandom", "_velocity", "_rocket", "_pitchRandom", "_yaw", "_roll"];
 
 		_rocket = _projectileClassName createVehicle _sourceLocation;
 		_rocket setPosASL  _sourceLocation;
