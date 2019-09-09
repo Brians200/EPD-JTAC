@@ -71,10 +71,8 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 
 		if(isNull _laserTarget) exitwith{_targetAcquired = false; };
 		_currentLaserLocation = getPosASL _laserTarget;
-		_laserLocation = [ (_laserLocation select 0) + (_currentLaserLocation select 0),
-							(_laserLocation select 1) + (_currentLaserLocation select 1),
-							(_laserLocation select 2) + (_currentLaserLocation select 2)
-						];
+
+		_laserLocation = _laserLocation vectorAdd _currentLaserLocation;
 		sleep _counterSleepTime;
 	};
 	
@@ -102,11 +100,22 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 	_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 
 	_laser = laserTarget player;
+	_designatorName = "Laser Designator";
+
+	if (isNull _laser) then {
+		_laser = laserTarget (getConnectedUAV player);
+		_designatorName = "Connected UAV";
+
+		if (isNull _laser) then {
+			_laser = laserTarget (vehicle player);
+			_designatorName = "Your Vehicle";
+		};
+	};
 	
 	_counter = 0;
 	while {true} do {
 		if (isNull _laser) exitWith {hint "Laser turned off. Locking canceled" };
-		hintSilent format ["Locking onto laser: %1%2", _counter, "%"];
+		hintSilent format ["Using %3\nLocking onto laser: %1%2", _counter, "%", _designatorName];
 		_counter = _counter + 1;
 		
 		if (_counter >= 100) exitWith {
@@ -130,6 +139,18 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 	_counterSleepTime = (_payloadInformation select 0) * _aquisitionGlobalModifier;
 
 	_laser = laserTarget player;
+	_designatorName = "Laser Designator";
+
+	if (isNull _laser) then {
+		_laser = laserTarget (getConnectedUAV player);
+		_designatorName = "Connected UAV";
+
+		if (isNull _laser) then {
+			_laser = laserTarget (vehicle player);
+			_designatorName = "Your Vehicle";
+		};
+	};
+
 	_oneQuarter = (1.0/4.0);
 	_oneThird = (1.0/3.0);
 
@@ -168,7 +189,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 			_firemission = format[(_payloadInformation select 2), _currentTarget, call CLIENT_GET_DIRECTION];
 			[player, _firemission, _reloadDelay, false, [_currentTarget]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 		};
-		hintSilent format["Current Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter toFixed 2,"%"];
+		hintSilent format["Using %6\nCurrent Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter toFixed 2,"%",_designatorName];
 		
 		sleep _counterSleepTime;
 	};
