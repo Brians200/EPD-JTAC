@@ -8,22 +8,22 @@ EPDJtacCanFire = [];
 EPDJtacGunsFiring = [];
 
 CAN_PERFORM_FIRE_MISSION = {
-	_category = _this;
-	_index = EPDJtacCategories find _category;
+	private _category = _this;
+	private _index = EPDJtacCategories find _category;
 	EPDJtacCanFire select _index;
 };
 
 RECORD_FIRE_MISSION = {
-	_category = _this select 0;
-	_amountUsed = _this select 1;
+	private _category = _this select 0;
+	private _amountUsed = _this select 1;
 
-	_index = EPDJtacCategories find _category;
+	private _index = EPDJtacCategories find _category;
 	EPDJtacCanFire set [_index, false];
 	EPDJtacGunsFiring set [_index, true];
 
-	_newAmount = _amountUsed + (EPDJtacAmounts select _index);
+	private _newAmount = _amountUsed + (EPDJtacAmounts select _index);
 
-	_sleepTime = 0;
+	private _sleepTime = 0;
 	if ( _newAmount >= (EPDJtacCapacities select _index)) then {
 		//long reload
 		_sleepTime = EPDJtacLongReloadTimes select _index;
@@ -38,8 +38,8 @@ RECORD_FIRE_MISSION = {
 };
 
 GET_RELOAD_TIME_REMAINING = {
-	_category = _this;
-	_index = EPDJtacCategories find _category;
+	private _category = _this;
+	private _index = EPDJtacCategories find _category;
 	if ( EPDJtacGunsFiring select _index ) then {
 		-20;
 	} else {
@@ -49,8 +49,8 @@ GET_RELOAD_TIME_REMAINING = {
 
 START_RELOAD_TIMER = {
 
-	_category = _this;
-	_index = EPDJtacCategories find _category;
+	private _category = _this;
+	private _index = EPDJtacCategories find _category;
 
 	EPDJtacGunsFiring set [_index, false];
 	[_index, EPDJtacReloadTimeLeft select _index] call PERFORM_TIMER_COUNTDOWN;
@@ -63,8 +63,8 @@ START_RELOAD_TIMER = {
 };
 
 PERFORM_TIMER_COUNTDOWN = {
-	_index = _this select 0;
-	_timeLeft = _this select 1;
+	private _index = _this select 0;
+	private _timeLeft = _this select 1;
 
 	if(not EPDJtacDebug) then {
 		while { _timeLeft > 0 } do {

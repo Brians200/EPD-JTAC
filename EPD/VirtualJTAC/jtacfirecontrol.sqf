@@ -3,23 +3,21 @@ CLIENT_REQUEST_PERMISSION_TO_FIRE = {
 };
 
 SERVER_GRANT_PERMISSION_TO_FIRE = {
-	private["_unit", "_payload", "_acquisitionMethod", "_category"];
-	_unit = _this select 0;
-	_payload = _this select 1;
-	_acquisitionMethod = _this select 2;
+	private _unit = _this select 0;
+	private _payload = _this select 1;
+	private _acquisitionMethod = _this select 2;
 
-	_category = _payload select 0;
+	private _category = _payload select 0;
 
 	[_category call CAN_PERFORM_FIRE_MISSION, _category call GET_RELOAD_TIME_REMAINING, EPDJtacAquisitionGlobalModifier, _payload, _acquisitionMethod] remoteExec ["CLIENT_BEGIN_TARGETING", _unit, false];
 };
 
 CLIENT_BEGIN_TARGETING = {
-	private ["_permissionToFire", "_reloadTimeRemaining", "_payloadInformation", "_aquisitionGlobalModifier", "_acquisitionMethod"];
-	_canFireSalvo = _this select 0;
-	_reloadTimeRemaining = _this select 1;
-	_aquisitionGlobalModifier = _this select 2;
-	_payloadInformation = _this select 3;
-	_acquisitionMethod = _this select 4;
+	private _canFireSalvo = _this select 0;
+	private _reloadTimeRemaining = _this select 1;
+	private _aquisitionGlobalModifier = _this select 2;
+	private _payloadInformation = _this select 3;
+	private _acquisitionMethod = _this select 4;
 
 	JtacAvailable = false;
 	if( _canFireSalvo ) then {
@@ -44,27 +42,21 @@ CLIENT_BEGIN_TARGETING = {
 };
 
 CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
-	private["_counterSleepTime", "_counter", "_targetAcquired", "_firemission", "_laserLocation", "_aquisitionGlobalModifier", "_payloadInformation", "_capacityUsed", "_category"];
+	private _aquisitionGlobalModifier = _this select 0;
+	private _payloadInformation = _this select 1;
+	private _category = _payloadInformation select 0;
+	private _capacityUsed = _payloadInformation select 2;
+	private _counterSleepTime = (_payloadInformation select 1) * _aquisitionGlobalModifier / 100.0;
 
-	_aquisitionGlobalModifier = _this select 0;
-	_payloadInformation = _this select 1;
-	_category = _payloadInformation select 0;
-	_capacityUsed = _payloadInformation select 2;
-	_counterSleepTime = (_payloadInformation select 1) * _aquisitionGlobalModifier / 100.0;
-
-	_counter = 0;
-	_targetAcquired = true;
-	_laserLocation = [0,0,0];
+	private _counter = 0;
+	private _targetAcquired = true;
+	private _laserLocation = [0,0,0];
 
 	while {_counter < 100 } do {
-		private["_laserTarget", "_currentLaserLocation", "_designatorName"];
 		_counter = _counter + 1 ;
 
-		_laserTarget = objNull;
-		_designatorName = "Laser Designator";
-		_laserTarget = laserTarget player;
-
-		// format["%1", laserTarget (getConnectedUAV player)];
+		private _laserTarget = LaserTarget player;
+		private _designatorName = "Laser Designator";
 
 		if(isNull _laserTarget and !isNull laserTarget (getConnectedUAV player)) then {
 			_laserTarget = laserTarget (getConnectedUAV player);
@@ -78,20 +70,17 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 
 		hintSilent format["Using %1\nAcquiring target: %2%3", _designatorName, _counter, "%"];
 
-		if(isNull _laserTarget) exitwith{_targetAcquired = false; };
-		_currentLaserLocation = getPosASL _laserTarget;
+		if(isNull _laserTarget) exitwith{ _targetAcquired = false; };
+		private _currentLaserLocation = getPosASL _laserTarget;
 
 		_laserLocation = _laserLocation vectorAdd _currentLaserLocation;
 		sleep _counterSleepTime;
 	};
 	
 	if(_targetAcquired) then {
-		_laserLocation = [ (_laserLocation select 0) / _counter,
-						(_laserLocation select 1) / _counter,
-						(_laserLocation select 2) / _counter
-		];
+		_laserLocation = _laserLocation vectorMultiply ( 1.0 / _counter);
 		hint "Rounds inbound, take cover! \n(It's safe to turn your laser off.)";
-		_firemission = format[(_payloadInformation select 3), _laserLocation, call CLIENT_GET_DIRECTION];
+		private _firemission = format[(_payloadInformation select 3), _laserLocation, call CLIENT_GET_DIRECTION];
 		[player, _firemission, _category, _capacityUsed, true, []] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 	} else {
 		hint format["Laser turned off. Targeting canceled"];
@@ -99,17 +88,14 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 };
 
 CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
+	private _aquisitionGlobalModifier = _this select 0;
+	private _payloadInformation = _this select 1;
+	private _category = _payloadInformation select 0;
+	private _capacityUsed = _payloadInformation select 2;
+	private _counterSleepTime = (_payloadInformation select 1) * _aquisitionGlobalModifier  / 100.0;
 
-	private ["_aquisitionGlobalModifier", "_payloadInformation", "_laser", "_counter", "_firemission", "_capacityUsed", "_category"];
-
-	_aquisitionGlobalModifier = _this select 0;
-	_payloadInformation = _this select 1;
-	_category = _payloadInformation select 0;
-	_capacityUsed = _payloadInformation select 2;
-	_counterSleepTime = (_payloadInformation select 1) * _aquisitionGlobalModifier  / 100.0;
-
-	_laser = laserTarget player;
-	_designatorName = "Laser Designator";
+	private _laser = laserTarget player;
+	private _designatorName = "Laser Designator";
 
 	if (isNull _laser) then {
 		_laser = laserTarget (getConnectedUAV player);
@@ -121,7 +107,7 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 		};
 	};
 	
-	_counter = 0;
+	private _counter = 0;
 	while {true} do {
 		if (isNull _laser) exitWith {hint "Laser turned off. Locking canceled" };
 		hintSilent format ["Using %3\nLocking onto laser: %1%2", _counter, "%", _designatorName];
@@ -129,7 +115,7 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 		
 		if (_counter >= 100) exitWith {
 			hint "Missile is fired. Targeting your laser.";
-			_firemission = format[(_payloadInformation select 3), _laser, call CLIENT_GET_DIRECTION];
+			private _firemission = format[(_payloadInformation select 3), _laser, call CLIENT_GET_DIRECTION];
 			
 			//0 = _laser spawn {[_this select 0, "M_Titan_AT_long"] call FIRE_GUIDED_MISSILE;}
 			[player, _firemission, _category, _capacityUsed, false, [_laser]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
@@ -142,18 +128,18 @@ CLIENT_LOCK_AND_FIRE_LASER_LOCATION = {
 
 CLIENT_LOCK_AND_FIRE_VEHICLE = {
 
-	_aquisitionGlobalModifier = _this select 0;
-	_payloadInformation = _this select 1;
-	_category = _payloadInformation select 0;
-	_capacityUsed = _payloadInformation select 2;
+	private _aquisitionGlobalModifier = _this select 0;
+	private _payloadInformation = _this select 1;
+	private _category = _payloadInformation select 0;
+	private _capacityUsed = _payloadInformation select 2;
 
-	_oneQuarter = (1.0/4.0);
-	_oneThird = (1.0/3.0);
+	private _oneQuarter = (1.0/4.0);
+	private _oneThird = (1.0/3.0);
 
-	_counterSleepTime = (_payloadInformation select 1) * _aquisitionGlobalModifier  / 450.0;
+	private _counterSleepTime = (_payloadInformation select 1) * _aquisitionGlobalModifier  / 450.0;
 
-	_laser = laserTarget player;
-	_designatorName = "Laser Designator";
+	private _laser = laserTarget player;
+	private _designatorName = "Laser Designator";
 
 	if (isNull _laser) then {
 		_laser = laserTarget (getConnectedUAV player);
@@ -165,21 +151,19 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		};
 	};
 
-	_aimedAtTargetCounter = 0;
-	_notAimedAtTargetCounter = 0;
-	_currentTarget = objNull;
-	_displayName = objNull;
+	private _aimedAtTargetCounter = 0;
+	private _notAimedAtTargetCounter = 0;
+	private _currentTarget = objNull;
+	private _displayName = objNull;
 	while {true} do {
-		private "_aimedAtCurrentTarget";
-		
 		if (isNull _laser) exitWith {hint "Laser turned off. Locking canceled" };
 		
-		_aimedAtCurrentTarget = false;		
-		_nearestEntities = _laser nearEntities [["Car", "Motorcycle", "Tank"], 5];
+		private _aimedAtCurrentTarget = false;
+		private _nearestEntities = _laser nearEntities [["Car", "Motorcycle", "Tank"], 5];
 		if (count _nearestEntities > 0) then {
 			if (isNull _currentTarget) then {
 				_currentTarget = _nearestEntities select 0;
-				_targetType = typeOf _currentTarget;
+				private _targetType = typeOf _currentTarget;
 				_displayName =  getText (configFile >>  "CfgVehicles" >> _targetType >> "displayName");
 			} else {
 				{ if ( _currentTarget == _x) then {_aimedAtCurrentTarget = true}; } forEach _nearestEntities;				
@@ -197,7 +181,7 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 		
 		if (_aimedAtTargetCounter >= 100) exitWith {
 			hint "Vehicle locked. It is safe to turn off your laser and take cover.";
-			_firemission = format[(_payloadInformation select 3), _currentTarget, call CLIENT_GET_DIRECTION];
+			private _firemission = format[(_payloadInformation select 3), _currentTarget, call CLIENT_GET_DIRECTION];
 			[player, _firemission, _category, _capacityUsed, false, [_currentTarget]] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
 		};
 		hintSilent format["Using %6\nCurrent Target: %1\nOn Target: %2\nLock: %3%5\nLock Lost: %4%5", _displayName, _aimedAtCurrentTarget, _aimedAtTargetCounter toFixed 2, _notAimedAtTargetCounter toFixed 2,"%",_designatorName];
@@ -221,14 +205,12 @@ CLIENT_GET_DIRECTION = {
 };
 
 SERVER_PERFORM_FIRE_MISSION = {
-	private ["_unit", "_fireMission", "_capacityUsed", "_category"];
-	_unit = _this select 0;
-	_fireMission = _this select 1;
-	fireMission = compile _fireMission;
-	_category = _this select 2;
-	_capacityUsed = (_this select 3);
-	_shouldPerformOnServer = _this select 4;
-	_extraParams = _this select 5;
+	private _unit = _this select 0;
+	private _fireMission = _this select 1;
+	private _category = _this select 2;
+	private _capacityUsed = _this select 3;
+	private _shouldPerformOnServer = _this select 4;
+	private _extraParams = _this select 5;
 	
 	if (_category call CAN_PERFORM_FIRE_MISSION) then {
 		[_category, _capacityUsed] call RECORD_FIRE_MISSION;

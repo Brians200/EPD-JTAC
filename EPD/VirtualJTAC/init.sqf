@@ -28,13 +28,11 @@ if(!isDedicated) then {
 	};
 
 	0 = [] spawn {
-		private ["_actionNumber","_booleanActionAdd","_addActionedUav"];
-		_actionNumber = -1;
-		_booleanActionAdd = false;
-		_addActionedUav = objNull;
+		private _actionNumber = -1;
+		private _booleanActionAdd = false;
+		private _addActionedUav = objNull;
 		while {true} do {
-			private ["_currentUav"];
-			_currentUav = getConnectedUAV player;
+			private _currentUav = getConnectedUAV player;
 
 			if (!isNull _addActionedUav and _addActionedUav != _currentUav) then {
 				_addActionedUav removeAction _actionNumber;
@@ -52,9 +50,3 @@ if(!isDedicated) then {
 		};
 	};
 };
-
-if(!isserver) exitwith{};
-
-//Server Variables to handle state
-JtacCanFireSalvo = true;
-JtacReloadTimer = 0;
