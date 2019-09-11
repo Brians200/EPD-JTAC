@@ -44,8 +44,8 @@ EPDJtacReloads = [
 		SHOOT_PROJECTILES - Traditional technique of sending a projectile at a target. Projectile will be spawned about 2.2km away and flung towards the target.
 			parameters - [_projectileClassName, _verticalOffset, _numberToSend, _spreadRadial, _spreadNormal, _minTimeBetween, _maxRandomTime]
 				_projectileClassName - Classname of the projectile to use.
-				_verticalOffset - How many meters to aim up over the top of the target so it can hit the target.
 				_numberToSend - How many projectiles to shoot.
+				_verticalOffset - How many meters to aim up over the top of the target so it can hit the target.
 				_spreadRadial - Radius of the horizontal inaccuracy. Projectiles can land anywhere in a circle of this radius around the target.
 				_spreadNormal - Height of vertical inaccuracy. Think aiming too high or low. Turns the inaccuracy circle into an oval.
 				_minTimeBetween - Minimum time between shots.
@@ -86,8 +86,8 @@ EPDJtacReloads = [
 		STRAFING_RUN_PROJECTILE - Spawns a run of projectiles.
 			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
 				_projectileClassName - Classname of the projectile to use.
-				_verticalOffset - How many meters to aim up over the top of the target so it can hit the target.
 				_numberToSend - How many rockets to fire.
+				_verticalOffset - How many meters to aim up over the top of the target so it can hit the target.
 				_distanceToStrafe - How far the run should go.
 				_horizontalDistance - How far away the missile spawns.
 				_spread - How many meters in each direction the rockets can land from their desired location.
@@ -109,20 +109,20 @@ EPDJtacReloads = [
 */
 
 EPDJtacAvailableAttacks  = [
-	["BULLETS", "20mm", 10, 2, "SHOOT_PROJECTILES", ["B_20mm", 105.6, 20, 4, 2, .05, .05]],
-	["BULLETS", "20mm HE", 10, 2, "SHOOT_PROJECTILES", ["G_20mm_HE", 177.1, 15, 6, 5, .1, .1]],
-	["BULLETS", "30mm HE", 12, 3, "SHOOT_PROJECTILES", ["B_30mm_HE", 43.7, 15, 8, 2, .2, .2]],
-	["BULLETS", "35mm AA", 14, 3, "SHOOT_PROJECTILES", ["B_35mm_AA", 57.5, 10, 16, 5, .4, .4]],
-	["BULLETS", "40mm HEDP", 16, 4, "SHOOT_PROJECTILES", ["G_40mm_HEDP", 177.1, 6, 16, 5, .5, .6]],
-	["BULLETS", "40mm HE", 16, 4, "SHOOT_PROJECTILES", ["G_40mm_HE", 177.1, 6, 18, 5, .5, .6]],
+	["BULLETS", "20mm", 10, 2, "SHOOT_PROJECTILES", ["B_20mm", 20, 105.6, 4, 2, .05, .05]],
+	["BULLETS", "20mm HE", 10, 2, "SHOOT_PROJECTILES", ["G_20mm_HE", 15, 177.1, 6, 5, .1, .1]],
+	["BULLETS", "30mm HE", 12, 3, "SHOOT_PROJECTILES", ["B_30mm_HE", 15, 43.7, 8, 2, .2, .2]],
+	["BULLETS", "35mm AA", 14, 3, "SHOOT_PROJECTILES", ["B_35mm_AA", 10, 57.5, 16, 5, .4, .4]],
+	["BULLETS", "40mm HEDP", 16, 4, "SHOOT_PROJECTILES", ["G_40mm_HEDP", 6, 177.1, 16, 5, .5, .6]],
+	["BULLETS", "40mm HE", 16, 4, "SHOOT_PROJECTILES", ["G_40mm_HE", 6, 177.1, 18, 5, .5, .6]],
 
-	["SHELLS", "82mm AMOS", 18, 3, "SHOOT_PROJECTILES", ["Sh_82mm_AMOS", 23.9, 5, 20, 5, 1, .5]],
-	["SHELLS", "120mm HE", 20, 3, "SHOOT_PROJECTILES", ["Sh_120mm_HE", 37.4, 3, 25, 8, 1, 1]],
-	["SHELLS", "155mm AMOS", 22, 7, "SHOOT_PROJECTILES", ["Sh_155mm_AMOS", 23.9, 2, 30, 10, 2, 1]],
-	["SHELLS", "155mm CLUSTER", 24, 7, "SHOOT_PROJECTILES", ["Cluster_155mm_AMOS", 23.9, 1, 2, 2, 2, 1]],
+	["SHELLS", "82mm AMOS", 18, 3, "SHOOT_PROJECTILES", ["Sh_82mm_AMOS", 5, 23.9, 20, 5, 1, .5]],
+	["SHELLS", "120mm HE", 20, 3, "SHOOT_PROJECTILES", ["Sh_120mm_HE", 3, 37.4, 25, 8, 1, 1]],
+	["SHELLS", "155mm AMOS", 22, 7, "SHOOT_PROJECTILES", ["Sh_155mm_AMOS", 2, 23.9, 30, 10, 2, 1]],
+	["SHELLS", "155mm CLUSTER", 24, 7, "SHOOT_PROJECTILES", ["Cluster_155mm_AMOS", 1, 23.9, 2, 2, 2, 1]],
 
-	["STRAFINGRUN", "20mm - 50 meters", 12, 1, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 38, 50, 4, .005, .005]],
-	["STRAFINGRUN", "20mm - 100 meters", 15, 2, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 75, 100, 4, .005, .005]],
+	["STRAFINGRUN", "20mm - 50 meters", 12, 1, "STRAFING_RUN_PROJECTILE", ["B_20mm", 38, 105.6, 50, 4, .005, .005]],
+	["STRAFINGRUN", "20mm - 100 meters", 15, 2, "STRAFING_RUN_PROJECTILE", ["B_20mm", 75, 105.6, 100, 4, .005, .005]],
 	["STRAFINGRUN", "Dagger - 50 meters", 30, 2, "STRAFING_RUN_ROCKET", ["M_AT", 6, 50, 3000, -20.98, 6, .1, .2]],
 	["STRAFINGRUN", "Dagger - 100 meters", 35, 3, "STRAFING_RUN_ROCKET", ["M_AT", 12, 100, 3000, -20.98, 6, .1, .2]],
 	["STRAFINGRUN", "Shrieker HE - 50 meters", 30, 2, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 6, 50, 3000, -20.467, 6, .1, .2]],
