@@ -8,6 +8,7 @@ call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\GuidedMissile.sq
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\StrafingRun.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacattackparser.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacfirecontrol.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacreload.sqf";
 
 call PARSE_AVAILABLE_JTAC_ATTACKS;
 
