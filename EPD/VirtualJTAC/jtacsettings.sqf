@@ -1,12 +1,12 @@
 if(isserver) then {
 	//If true, allows you to skip the cool down.
-	EPDJtacDebug = true;
+	EPDJtacDebug = false;
 
 	//The cooldown for every fire mission will be multiplied by this much. Numbers bigger than 1 will increase it. Numbers between 0-1 will shorten it. Individual fire missions can be modified in the array below.
     EPDJtacCoolDownGlobalModifier = 1.0;
 
 	//The acquireRate for every fire mission will be multiplied by this much. Numbers bigger than 1 will increase it. Numbers between 0-1 will shorten it. Individual fire missions can be modified in the array below.
-	EPDJtacAquisitionGlobalModifier = .1;
+	EPDJtacAquisitionGlobalModifier = 1.0;
 
 };
 
@@ -20,12 +20,12 @@ EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 EPDJtacReloads = [
     ["BULLETS", 10, 30, 120],
     ["SHELLS", 10, 30, 225],
-    ["STRAFINGRUN", 10, 45, 300],
+    ["STRAFINGRUN", 5, 45, 300],
     ["BOMBS", 4, 120, 300],
-    ["ROCKETS", 6, 90, 300],
+    ["ROCKETS", 3, 90, 300],
     ["GUIDEDMISSILE", 2, 60, 300],
-    ["MINES", 10, 30, 600],
-    ["NONLETHAL", 10, 30, 120]
+    ["MINES", 5, 30, 600],
+    ["NONLETHAL", 5, 30, 120]
 ];
 
 /*
@@ -121,12 +121,12 @@ EPDJtacAvailableAttacks  = [
 	["SHELLS", "155mm AMOS", 22, 7, "SHOOT_PROJECTILES", ["Sh_155mm_AMOS", 23.9, 2, 30, 10, 2, 1]],
 	["SHELLS", "155mm CLUSTER", 24, 7, "SHOOT_PROJECTILES", ["Cluster_155mm_AMOS", 23.9, 1, 2, 2, 2, 1]],
 
-	["STRAFINGRUN", "20mm - 50 meters", 12, 2, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 38, 50, 4, .005, .005]],
-	["STRAFINGRUN", "20mm - 100 meters", 15, 4, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 75, 100, 4, .005, .005]],
-	["STRAFINGRUN", "Dagger - 50 meters", 30, 4, "STRAFING_RUN_ROCKET", ["M_AT", 6, 50, 3000, -20.98, 6, .1, .2]],
-	["STRAFINGRUN", "Dagger - 100 meters", 35, 6, "STRAFING_RUN_ROCKET", ["M_AT", 12, 100, 3000, -20.98, 6, .1, .2]],
-	["STRAFINGRUN", "Shrieker HE - 50 meters", 30, 4, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 6, 50, 3000, -20.467, 6, .1, .2]],
-	["STRAFINGRUN", "Shrieker HE - 100 meters", 35, 6, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 12, 100, 3000, -20.467, 6, .1, .2]],
+	["STRAFINGRUN", "20mm - 50 meters", 12, 1, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 38, 50, 4, .005, .005]],
+	["STRAFINGRUN", "20mm - 100 meters", 15, 2, "STRAFING_RUN_PROJECTILE", ["B_20mm", 105.6, 75, 100, 4, .005, .005]],
+	["STRAFINGRUN", "Dagger - 50 meters", 30, 2, "STRAFING_RUN_ROCKET", ["M_AT", 6, 50, 3000, -20.98, 6, .1, .2]],
+	["STRAFINGRUN", "Dagger - 100 meters", 35, 3, "STRAFING_RUN_ROCKET", ["M_AT", 12, 100, 3000, -20.98, 6, .1, .2]],
+	["STRAFINGRUN", "Shrieker HE - 50 meters", 30, 2, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 6, 50, 3000, -20.467, 6, .1, .2]],
+	["STRAFINGRUN", "Shrieker HE - 100 meters", 35, 3, "STRAFING_RUN_ROCKET", ["Rocket_04_HE_F", 12, 100, 3000, -20.467, 6, .1, .2]],
 
 	["BOMBS", "250lb SDB", 40, 1, "DROP_BOMBS", ["ammo_Bomb_SDB", 1, 250, 0.125, 2, 0, 0]],
 	["BOMBS", "500lb GBU12", 44, 2, "DROP_BOMBS", ["Bomb_03_F", 1, 223.5, 1, 10, 0, 0]],
@@ -135,27 +135,27 @@ EPDJtacAvailableAttacks  = [
 	["BOMBS", "1100lb Cluster", 56, 4, "DROP_BOMBS", ["BombCluster_02_Ammo_F", 1, 255, 0.5, 10, 0, 0]],
 	["BOMBS", "Cruise Missile Cluster", 60, 4, "FIRE_ROCKETS", ["ammo_Missile_Cruise_01_Cluster", 1, 3911.5, -17.04, 0.1, 0.1, 0, 0]],
 
-	["ROCKETS", "84mm MAAWS 44 HE", 30, 2, "DROP_BOMBS", ["R_MRAAWS_HE_F", 7, 295.7, 1, 15, 1, 1]],  //Special snowflake
-	["ROCKETS", "Vorona 130mm HE", 40, 3, "FIRE_ROCKETS", ["M_Vorona_HE", 6, 1911.5, -28.99, 0.25, 0.25, 1, 2]],
-	["ROCKETS", "230mm HE", 50, 6, "DROP_BOMBS", ["R_230mm_HE", 4, 240.55, 1, 25, .4, .2]],  //Special snowflake
-	["ROCKETS", "Cruise Missile", 60, 6, "FIRE_ROCKETS", ["ammo_Missile_Cruise_01", 3, 3911.5, -17.04, 0.3, 0.3, 4, 1]],
+	["ROCKETS", "84mm MAAWS 44 HE", 30, 1, "DROP_BOMBS", ["R_MRAAWS_HE_F", 7, 295.7, 1, 15, 1, 1]],  //Special snowflake
+	["ROCKETS", "Vorona 130mm HE", 40, 2, "FIRE_ROCKETS", ["M_Vorona_HE", 6, 1911.5, -28.99, 0.25, 0.25, 1, 2]],
+	["ROCKETS", "230mm HE", 50, 3, "DROP_BOMBS", ["R_230mm_HE", 4, 240.55, 1, 25, .4, .2]],  //Special snowflake
+	["ROCKETS", "Cruise Missile", 60, 3, "FIRE_ROCKETS", ["ammo_Missile_Cruise_01", 3, 3911.5, -17.04, 0.3, 0.3, 4, 1]],
 
 	["GUIDEDMISSILE", "Titan AT", 15, 1, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "laser"]],
 	["GUIDEDMISSILE", "Titan AT FnF", 15, 1, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "vehicle"]],
 
-	["MINES", "APERS Mine", 30, 2, "LAY_MINE_FIELD", [["APERSMine"], 20, 20]],
-	["MINES", "APERS Bounding Mine", 30, 2, "LAY_MINE_FIELD", [["APERSBoundingMine"], 20, 20]],
-	["MINES", "APERS Mix", 40, 3, "LAY_MINE_FIELD", [["APERSMine", "APERSBoundingMine"], 20, 20]],
-	["MINES", "Anti-Tank Mine", 30, 2, "LAY_MINE_FIELD", [["ATMine"], 20, 20]],
-	["MINES", "SLAM Directional Mine", 30, 2, "LAY_MINE_FIELD", [["SLAMDirectionalMine"], 20, 20]],
-	["MINES", "Anti-Vehicle Mix", 30, 3, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
+	["MINES", "APERS Mine", 30, 1, "LAY_MINE_FIELD", [["APERSMine"], 20, 20]],
+	["MINES", "APERS Bounding Mine", 30, 1, "LAY_MINE_FIELD", [["APERSBoundingMine"], 20, 20]],
+	["MINES", "APERS Mix", 40, 2, "LAY_MINE_FIELD", [["APERSMine", "APERSBoundingMine"], 20, 20]],
+	["MINES", "Anti-Tank Mine", 30, 1, "LAY_MINE_FIELD", [["ATMine"], 20, 20]],
+	["MINES", "SLAM Directional Mine", 30, 1, "LAY_MINE_FIELD", [["SLAMDirectionalMine"], 20, 20]],
+	["MINES", "Anti-Vehicle Mix", 30, 2, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
 	["MINES", "Demine", 30, 2, "EVEN_SPREAD_PROJECTILES", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
 
-	["NONLETHAL", "Red, White, and Blue", 10, 2, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
-	["NONLETHAL", "White Wall Medium", 12, 2, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],
-	["NONLETHAL", "White Wall Large", 14, 3, "EVEN_SPREAD_PROJECTILES", [["Smoke_120mm_AMOS_White"], 35, -80, 1000]],
-	["NONLETHAL", "Flare Cloud", 10, 2, "EVEN_SPREAD_PROJECTILES", [["F_40mm_White", "F_40mm_Green", "F_40mm_Red", "F_40mm_Yellow"], 35, -0.1, 120]],
-	["NONLETHAL", "Chem Lights", 10, 2, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "Chemlight_red", "Chemlight_yellow", "Chemlight_green"], 10, -0.1, 120]],
-	["NONLETHAL", "Strobes", 10, 2, "EVEN_SPREAD_PROJECTILES", [["I_IRStrobe"], 15, -0.1, 120]],
-	["NONLETHAL", "Night Signal", 10, 2, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "G_40mm_Smoke"], 8, -0.1, 120]]
+	["NONLETHAL", "Red, White, and Blue", 10, 1, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
+	["NONLETHAL", "White Wall Medium", 12, 1, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],
+	["NONLETHAL", "White Wall Large", 14, 2, "EVEN_SPREAD_PROJECTILES", [["Smoke_120mm_AMOS_White"], 35, -80, 1000]],
+	["NONLETHAL", "Flare Cloud", 10, 1, "EVEN_SPREAD_PROJECTILES", [["F_40mm_White", "F_40mm_Green", "F_40mm_Red", "F_40mm_Yellow"], 35, -0.1, 120]],
+	["NONLETHAL", "Chem Lights", 10, 1, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "Chemlight_red", "Chemlight_yellow", "Chemlight_green"], 10, -0.1, 120]],
+	["NONLETHAL", "Strobes", 10, 1, "EVEN_SPREAD_PROJECTILES", [["I_IRStrobe"], 15, -0.1, 120]],
+	["NONLETHAL", "Night Signal", 10, 1, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "G_40mm_Smoke"], 8, -0.1, 120]]
 ];
