@@ -37,7 +37,7 @@ EPDJtacReloads = [
 	
 	acquireRate - Seconds required to aquire a target.
 
-	reloadTime - Time until the guns can fire again.
+	capacityUsed - The amount of the remaining capacity the attack will use. When the capacity is reached a long reload is triggered.
 	
 	projectileFiringMethod - One of "SHOOT_PROJECTILES", "DROP_BOMBS", "FIRE_ROCKETS", "EVEN_SPREAD_PROJECTILES", "STRAFING_RUN_ROCKET", "STRAFING_RUN_PROJECTILE", "LAY_MINE_FIELD". Determines which method will be used to send the payload to the target.
 	
