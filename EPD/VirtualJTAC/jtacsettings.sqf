@@ -2,9 +2,6 @@ if(isserver) then {
 	//If true, allows you to skip the cool down.
 	EPDJtacDebug = false;
 
-	//The cooldown for every fire mission will be multiplied by this much. Numbers bigger than 1 will increase it. Numbers between 0-1 will shorten it. Individual fire missions can be modified in the array below.
-    EPDJtacCoolDownGlobalModifier = 1.0;
-
 	//The acquireRate for every fire mission will be multiplied by this much. Numbers bigger than 1 will increase it. Numbers between 0-1 will shorten it. Individual fire missions can be modified in the array below.
 	EPDJtacAquisitionGlobalModifier = 1.0;
 
