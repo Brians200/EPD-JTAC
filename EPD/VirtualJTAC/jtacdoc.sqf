@@ -67,7 +67,7 @@ Anti-Vehicle Mix - Lays a random mixture of Anti-Tank Mine and SLAM mines.<br/>
 Radial Spread: 20m<br/>
 Reload Time: 300 seconds<br/><br/>
 
-Demine - Attempts to clear out an area of mines by dropping 12 perfectly spaced demining charges on the area. 3 charges will form a triangle in the middle and 9 more charges will form a ring around it.<br/>
+Clear Mine Field - Attempts to clear out an area of mines by dropping 12 perfectly spaced demining charges on the area. 3 charges will form a triangle in the middle and 9 more charges will form a ring around it.<br/>
 Radial Spread: 20m<br/>
 Reload Time: 180 seconds<br/><br/>
 "]];
@@ -78,13 +78,13 @@ The JTAC operator can fire a wide variety of guided missiles.<br/><br/>
 Titan AT<br/>
 Calls in a Titan AT missile that will adjust its aiming to hit where ever you are aiming the laser designator.<br/>
 Number of Rounds: 1<br/>
-Target Acquisition Time: 10 seconds<br/>
+Target Acquisition Time: 15 seconds<br/>
 Reload Time: 540 seconds<br/><br/>
 
 Titan AT FnF<br/>
 Calls in a Titan AT missile in a fire and forget mode. Missile will automatically track the vehicle that it was locked on.<br/>
 Number of Rounds: 1<br/>
-Target Acquisition Time: 14 seconds<br/>
+Target Acquisition Time: 15 seconds<br/>
 Reload Time: 600 seconds<br/><br/>
 
 "]];
@@ -105,13 +105,13 @@ Target Acquisition Time: 40 seconds<br/>
 Reload Time: 480 seconds<br/><br/>
 
 230mm HE<br/>
-Number of Rounds: 4<br/>
+Number of Rounds: 2<br/>
 Radial Spread: 27m<br/>
 Target Acquisition Time: 50 seconds<br/>
 Reload Time: 540 seconds<br/><br/>
 
 Cruise Missile<br/>
-Number of Rounds: 3<br/>
+Number of Rounds: 1<br/>
 Radial Spread: 35m<br/>
 Target Acquisition Time: 60 seconds<br/>
 Reload Time: 600 seconds<br/><br/>
@@ -253,13 +253,6 @@ Radial Spread: 8m<br/>
 Orthogonal Spread: 2m<br/>
 Target Acquisition Time: 12 seconds<br/>
 Reload Time: 90 seconds<br/><br/>
-
-35mm AA<br/>
-Number of Rounds: 10<br/>
-Radial Spread: 16<br/>
-Orthogonal Spread: 5m<br/>
-Target Acquisition Time: 14 seconds<br/>
-Reload Time: 120 seconds<br/><br/>
 
 40mm HEDP<br/>
 Number of Rounds: 6<br/>

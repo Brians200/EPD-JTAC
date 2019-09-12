@@ -78,7 +78,22 @@ PERFORM_TIMER_COUNTDOWN = {
 
 CLIENT_RELOAD_FINISHED = {
 	if (player getVariable ["JTAC",false] ) then {
-		["JtacReloadNotification", [format ["%1 ready to fire!", _this]]] call BIS_fnc_showNotification;
+		private _prettyName = _this call CATEGORY_TO_PRETTY_STRING;
+		["JtacReloadNotification", [format ["%1 ready to fire!", _prettyName]]] call BIS_fnc_showNotification;
+	};
+};
+
+CATEGORY_TO_PRETTY_STRING = {
+	switch (_this) do {
+		case "BULLETS": { "Bullets" };
+		case "SHELLS": { "Shells" };
+		case "STRAFINGRUN": { "Strafing Run" };
+		case "BOMBS": { "Bombs" };
+		case "ROCKETS": { "Rockets" };
+		case "GUIDEDMISSILE": { "Guided Missile" };
+		case "MINES": { "Mines" };
+		case "NONLETHAL": { "Nonlethal" };
+		default { _this };
 	};
 };
 

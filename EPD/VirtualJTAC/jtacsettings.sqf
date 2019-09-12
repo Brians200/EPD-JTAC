@@ -20,7 +20,7 @@ EPDJtacGuidedMissileLostTrackingFailureChance = 5;
 EPDJtacReloads = [
     ["BULLETS", 10, 30, 120],
     ["SHELLS", 10, 30, 225],
-    ["STRAFINGRUN", 5, 45, 300],
+    ["STRAFINGRUN", 5, 30, 300],
     ["BOMBS", 4, 120, 300],
     ["ROCKETS", 3, 90, 300],
     ["GUIDEDMISSILE", 2, 60, 300],
@@ -112,7 +112,6 @@ EPDJtacAvailableAttacks  = [
 	["BULLETS", "20mm", 10, 2, "SHOOT_PROJECTILES", ["B_20mm", 20, 105.6, 4, 2, .05, .05]],
 	["BULLETS", "20mm HE", 10, 2, "SHOOT_PROJECTILES", ["G_20mm_HE", 15, 177.1, 6, 5, .1, .1]],
 	["BULLETS", "30mm HE", 12, 3, "SHOOT_PROJECTILES", ["B_30mm_HE", 15, 43.7, 8, 2, .2, .2]],
-	["BULLETS", "35mm AA", 14, 3, "SHOOT_PROJECTILES", ["B_35mm_AA", 10, 57.5, 16, 5, .4, .4]],
 	["BULLETS", "40mm HEDP", 16, 4, "SHOOT_PROJECTILES", ["G_40mm_HEDP", 6, 177.1, 16, 5, .5, .6]],
 	["BULLETS", "40mm HE", 16, 4, "SHOOT_PROJECTILES", ["G_40mm_HE", 6, 177.1, 18, 5, .5, .6]],
 
@@ -137,19 +136,19 @@ EPDJtacAvailableAttacks  = [
 
 	["ROCKETS", "84mm MAAWS 44 HE", 30, 1, "DROP_BOMBS", ["R_MRAAWS_HE_F", 7, 295.7, 1, 15, 1, 1]],  //Special snowflake
 	["ROCKETS", "Vorona 130mm HE", 40, 2, "FIRE_ROCKETS", ["M_Vorona_HE", 6, 1911.5, -28.99, 0.25, 0.25, 1, 2]],
-	["ROCKETS", "230mm HE", 50, 3, "DROP_BOMBS", ["R_230mm_HE", 4, 240.55, 1, 25, .4, .2]],  //Special snowflake
-	["ROCKETS", "Cruise Missile", 60, 3, "FIRE_ROCKETS", ["ammo_Missile_Cruise_01", 3, 3911.5, -17.04, 0.3, 0.3, 4, 1]],
+	["ROCKETS", "230mm HE", 50, 3, "DROP_BOMBS", ["R_230mm_HE", 2, 240.55, 1, 25, .4, .2]],  //Special snowflake
+	["ROCKETS", "Cruise Missile", 60, 3, "FIRE_ROCKETS", ["ammo_Missile_Cruise_01", 1, 3911.5, -17.04, 0.3, 0.3, 4, 1]],
 
 	["GUIDEDMISSILE", "Titan AT", 15, 1, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "laser"]],
 	["GUIDEDMISSILE", "Titan AT FnF", 15, 1, "FIRE_GUIDED_MISSILE", ["M_Titan_AT_long", "vehicle"]],
 
-	["MINES", "APERS Mine", 30, 1, "LAY_MINE_FIELD", [["APERSMine"], 20, 20]],
-	["MINES", "APERS Bounding Mine", 30, 1, "LAY_MINE_FIELD", [["APERSBoundingMine"], 20, 20]],
-	["MINES", "APERS Mix", 40, 2, "LAY_MINE_FIELD", [["APERSMine", "APERSBoundingMine"], 20, 20]],
-	["MINES", "Anti-Tank Mine", 30, 1, "LAY_MINE_FIELD", [["ATMine"], 20, 20]],
-	["MINES", "SLAM Directional Mine", 30, 1, "LAY_MINE_FIELD", [["SLAMDirectionalMine"], 20, 20]],
-	["MINES", "Anti-Vehicle Mix", 30, 2, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
-	["MINES", "Demine", 30, 2, "EVEN_SPREAD_PROJECTILES", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
+	["MINES", "APERS Mine", 30, 2, "LAY_MINE_FIELD", [["APERSMine"], 20, 20]],
+	["MINES", "APERS Bounding Mine", 30, 2, "LAY_MINE_FIELD", [["APERSBoundingMine"], 20, 20]],
+	["MINES", "APERS Mix", 40, 3, "LAY_MINE_FIELD", [["APERSMine", "APERSBoundingMine"], 20, 20]],
+	["MINES", "Anti-Tank Mine", 30, 2, "LAY_MINE_FIELD", [["ATMine"], 20, 20]],
+	["MINES", "SLAM Directional Mine", 30, 2, "LAY_MINE_FIELD", [["SLAMDirectionalMine"], 20, 20]],
+	["MINES", "Anti-Vehicle Mix", 30, 3, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
+	["MINES", "Clear Mine Field", 30, 2, "EVEN_SPREAD_PROJECTILES", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
 
 	["NONLETHAL", "Red, White, and Blue", 10, 1, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
 	["NONLETHAL", "White Wall Medium", 12, 1, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],
