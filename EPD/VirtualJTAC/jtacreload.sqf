@@ -76,6 +76,39 @@ PERFORM_TIMER_COUNTDOWN = {
 	EPDJtacReloadTimeLeft set [_index, 0];
 };
 
+GET_RELOAD_STATUS_ARRAY = {
+	private _array = [];
+
+	{
+		private _category = _x select 0;
+		private _index = EPDJtacCategories find _category;
+		private _asterisk = "";
+		private _timeLeft = 0;
+
+		if ( EPDJtacGunsFiring select _index ) then {
+			_asterisk = "*";
+		};
+		_timeLeft = EPDJtacReloadTimeLeft select _index;
+
+		if (_timeLeft > 0) then {
+			private _prettyString  = _category call CATEGORY_TO_PRETTY_STRING;
+			private _reloadInfo = format ["%1 - %2%3 seconds", _prettyString , _timeLeft, _asterisk ];
+			_array pushBack [_reloadInfo, .2, .1];
+		}
+
+	} foreach EPDJtacReloads;
+
+	if ( count _array == 0) then {
+		_array pushBack ["All attacks ready to fire", .2, 0];
+	};
+	_array pushBack["", 0,0,3];
+	_array remoteExec ["CLIENT_DISPLAY_RELOAD_STATUS", _this, false];
+};
+
+CLIENT_DISPLAY_RELOAD_STATUS = {
+	_this spawn  BIS_fnc_EXP_camp_SITREP;
+};
+
 CLIENT_RELOAD_FINISHED = {
 	if (player getVariable ["JTAC",false] ) then {
 		private _prettyName = _this call CATEGORY_TO_PRETTY_STRING;

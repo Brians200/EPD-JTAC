@@ -202,4 +202,6 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		["Southeast", [10], "", -5, [["expression", "JtacIncomingAngle = 'SE'; titleText ['Fire missions will fire from the Southeast.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"]
 	];
 	JtacMainMenu = JtacMainMenu + [["Fire Direction", [_keyNumber], "#USER:JtacDirectionsMenu",-5,[["expression",""]],"1","1"]];
+	_keyNumber = _keyNumber + 1;
+	JtacMainMenu = JtacMainMenu + [["Reload Status", [_keyNumber], "",-5,[["expression","player remoteExec ['GET_RELOAD_STATUS_ARRAY', 2, false];"]],"1","1"]];
 };
