@@ -22,13 +22,14 @@ EPDJtacReloads = [
     ["ROCKETS", 3, 90, 300],
     ["GUIDEDMISSILE", 2, 60, 300],
     ["MINES", 5, 30, 600],
-    ["NONLETHAL", 5, 30, 120]
+    ["SMOKE", 10, 20, 120],
+    ["NIGHT", 5, 30, 120]
 ];
 
 /*
-	["payloadCategory", "displayName", "acquireRate", "reloadTime", "projectileFiringMethod", [firing method parameters...]]
+	["payloadCategory", "displayName", "acquireRate", "capacityUsed", "projectileFiringMethod", [firing method parameters...]]
 	
-	payloadCategory - One of "BULLETS", "SHELLS", "GRENADES", "EXPLOSIVES", "CONCEALMENT". Determines which Jtac menu the payload will show up in.
+	payloadCategory - One of "BULLETS", "SHELLS", "STRAFINGRUN", "BOMBS", "ROCKETS", "GUIDEDMISSILE", "MINES", "SMOKE", or "NIGHT" . Determines which Jtac menu the payload will show up in.
 	
 	displayName - Name of the payload that will be presented to the operator.
 	
@@ -46,7 +47,10 @@ EPDJtacReloads = [
 				_spreadRadial - Radius of the horizontal inaccuracy. Projectiles can land anywhere in a circle of this radius around the target.
 				_spreadNormal - Height of vertical inaccuracy. Think aiming too high or low. Turns the inaccuracy circle into an oval.
 				_minTimeBetween - Minimum time between shots.
-				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+				_maxRandomTime  - A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+				_height - Optional starting height for the projectile.
+				_distance - Optional starting distance for the projectile.
+				_speed - Optional starting speed for the projectile.
 
 		DROP_BOMBS - Spawns the payload about 4.2km away. Sets the correct orientation and gives it a bit of velocity.
 			parameters - [_projectileClassName, _numberToSend, _initialSpeed, _speedVariance, _spreadRadial, _minTimeBetween, _maxRandomTime]
@@ -56,7 +60,7 @@ EPDJtacReloads = [
 				_speedVariance - The speed of the bomb will be adjusted by up to this much. This will cause the bomb to undershoot or overshoot.
 				_angleVariance - Radius of the horizontal inaccuracy. Projectiles can land anywhere in a circle of this radius around the target.
 				_minTimeBetween - Minimum time between shots.
-				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+				_maxRandomTime  - A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
 
 		FIRE_ROCKETS - Spawns a missile. Sets the correct orientation and sets the correct model orientation.
 			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
@@ -67,7 +71,7 @@ EPDJtacReloads = [
 				_pitchVariance - How much the pitch can be varied, This will cause the missile to undershoot or overshoot.
 				_yawVariance - How much the yaw can be varied, this will cause the missile to land to the left or right.
 				_minTimeBetween - Minimum time between shots.
-				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+				_maxRandomTime  - A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
 
 		STRAFING_RUN_ROCKET - Spawns a run of rockets.
 			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
@@ -78,7 +82,7 @@ EPDJtacReloads = [
 				_pitch - The pitch the model must be angled to to hit.
 				_spread - How many meters in each direction the rockets can land from their desired location.
 				_minTimeBetween - Minimum time between shots.
-				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+				_maxRandomTime  - A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
 
 		STRAFING_RUN_PROJECTILE - Spawns a run of projectiles.
 			parameters - [_projectileClassName, _numberToSend, _horizontalDistance, _pitch, _pitchVariance, _yawVariance, _minTimeBetween, _maxRandomTime]
@@ -89,7 +93,7 @@ EPDJtacReloads = [
 				_horizontalDistance - How far away the missile spawns.
 				_spread - How many meters in each direction the rockets can land from their desired location.
 				_minTimeBetween - Minimum time between shots.
-				_maxRandomTime  = A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
+				_maxRandomTime  - A random value of up to this value is added to the _minTimeBetween variable to provide some variable time between shots.
 
 		EVEN_SPREAD_PROJECTILES - Spawns 12 of the items randomly above the target and flings them down. Creates an evenly space inner triangle and an evenly space outer nonagon.
 			parameters - [[_projectileClassName, _projectileClassName,_projectileClassName,...], _spreadRadial, _downwardSpeed, _spawnHeight]
@@ -147,11 +151,19 @@ EPDJtacAvailableAttacks  = [
 	["MINES", "Anti-Vehicle Mix", 30, 3, "LAY_MINE_FIELD", [["ATMine", "SLAMDirectionalMine"], 20, 20]],
 	["MINES", "Clear Mine Field", 30, 2, "EVEN_SPREAD_PROJECTILES", [["BombDemine_01_Ammo_F"], 20, -10, 200]],
 
-	["NONLETHAL", "Red, White, and Blue", 10, 1, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue"], 15, -0.1, 100]],
-	["NONLETHAL", "White Wall Medium", 12, 1, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],
-	["NONLETHAL", "White Wall Large", 14, 2, "EVEN_SPREAD_PROJECTILES", [["Smoke_120mm_AMOS_White"], 35, -80, 1000]],
-	["NONLETHAL", "Flare Cloud", 10, 1, "EVEN_SPREAD_PROJECTILES", [["F_40mm_White", "F_40mm_Green", "F_40mm_Red", "F_40mm_Yellow"], 35, -0.1, 120]],
-	["NONLETHAL", "Chem Lights", 10, 1, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "Chemlight_red", "Chemlight_yellow", "Chemlight_green"], 10, -0.1, 120]],
-	["NONLETHAL", "Strobes", 10, 1, "EVEN_SPREAD_PROJECTILES", [["I_IRStrobe"], 15, -0.1, 120]],
-	["NONLETHAL", "Night Signal", 10, 1, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "G_40mm_Smoke"], 8, -0.1, 120]]
+	["SMOKE", "White Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_Smoke",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Blue Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_SmokeBlue",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Green Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_SmokeGreen",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Orange Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_SmokeOrange",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Purple Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_SmokePurple",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Red Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_SmokeRed",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Yellow Smoke", 6, 1, "SHOOT_PROJECTILES", ["G_40mm_SmokeYellow",2, 0, 5, 5, 1, 1.6, 75, 6, 25]],
+	["SMOKE", "Small cloud", 10, 2, "EVEN_SPREAD_PROJECTILES", [["G_40mm_Smoke", "G_40mm_SmokeRed", "G_40mm_SmokeBlue", "G_40mm_SmokeGreen", "G_40mm_SmokeOrange", "G_40mm_SmokePurple", "G_40mm_SmokeRed", "G_40mm_SmokeYellow" ], 15, -0.1, 100]],
+	["SMOKE", "Medium cloud", 12, 3, "EVEN_SPREAD_PROJECTILES", [["Smoke_82mm_AMOS_White"], 15, -80, 1000]],
+	["SMOKE", "Large cloud", 14, 4, "EVEN_SPREAD_PROJECTILES", [["Smoke_120mm_AMOS_White"], 35, -80, 1000]],
+
+	["NIGHT", "Flare Cloud", 10, 1, "EVEN_SPREAD_PROJECTILES", [["F_40mm_White", "F_40mm_Green", "F_40mm_Red", "F_40mm_Yellow"], 35, -0.1, 120]],
+	["NIGHT", "Chem Lights", 10, 1, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "Chemlight_red", "Chemlight_yellow", "Chemlight_green"], 10, -0.1, 120]],
+	["NIGHT", "Strobes", 10, 1, "EVEN_SPREAD_PROJECTILES", [["I_IRStrobe"], 15, -0.1, 120]],
+	["NIGHT", "Night Signal", 10, 1, "EVEN_SPREAD_PROJECTILES", [["Chemlight_blue", "G_40mm_Smoke"], 8, -0.1, 120]]
 ];

@@ -2,10 +2,6 @@ SHOOT_PROJECTILES = {
 
 	if(!isserver) exitwith{};
 
-	private _sourceHeight = 982.1129;
-	private _source2dDistance = 2000;
-	private _projectileSpeed = 1000;
-
 	private _targetLocation = _this select 0;
 	private _incomingAngle = _this select 1;
 	private _projectiles = _this select 2;
@@ -16,6 +12,9 @@ SHOOT_PROJECTILES = {
 	private _spreadNormal = _projectiles select 4;
 	private _minTimeBetween = _projectiles select 5;
 	private _maxRandomTime  = _projectiles select 6;
+	private _sourceHeight = _projectiles param [7, 982.1129];
+	private _source2dDistance = _projectiles param [8, 2000];
+	private _projectileSpeed = _projectiles param [9, 1000];
 
 	private _sourceLocation = _targetLocation getPos [_source2dDistance, _incomingAngle];
 	_sourceLocation set [2, _sourceHeight + (_targetLocation select 2)];

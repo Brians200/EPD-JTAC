@@ -12,7 +12,8 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	private _guidedMissiles = [];
 	private _mines = [];
 	private _strafingRun = [];
-	private _nonlethal = [];
+	private _smoke = [];
+	private _night = [];
 
 	private _numJtacAttacks = count EPDJtacAvailableAttacks;
 
@@ -33,11 +34,13 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 			_mines set [ count _mines, [_currentAttack select 0, _currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
 		} else { if(_attackType == "STRAFINGRUN") then {
 			_strafingRun set [ count _strafingRun, [_currentAttack select 0, _currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
-		} else { if(_attackType == "NONLETHAL") then {
-			_nonlethal set [ count _nonlethal, [_currentAttack select 0, _currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
+		} else { if(_attackType == "SMOKE") then {
+			_smoke set [ count _smoke, [_currentAttack select 0, _currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
+		} else { if(_attackType == "NIGHT") then {
+			_night set [ count _night, [_currentAttack select 0, _currentAttack select 1, _currentAttack select 2, _currentAttack select 3, _currentAttack select 4, _currentAttack select 5]];
 		} else {
 			diag_log format ["VirtualJTAC :::: Ignoring unknown payloadCategory for: %1",  _currentAttack];
-		};};};};};};};};
+		};};};};};};};};};
 	};
 	
 	JtacMainMenu = [
@@ -171,21 +174,39 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 		_keyNumber = _keyNumber + 1;
 	};
 
-	_bulletsCount = count _nonlethal;
-	JtacNonLethalMenu = [["JTAC Nonlethal", true]];
+	_bulletsCount = count _smoke;
+	JtacSmokeMenu = [["JTAC Smoke", true]];
 	for "_bulletsI" from 0 to _bulletsCount -1 do {
-		private _currentBullet = _nonlethal select _bulletsI;
+		private _currentBullet = _smoke select _bulletsI;
 		private _innerExpressionString = format ["[['%1', %2, %3, '[",  _currentBullet select 0, _currentBullet select 2, _currentBullet select 3] +
 								"%1, %2," +
 								format["%1", _currentBullet select 5] +
 								format["] call %1;'], 'average'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 4];
-		JtacNonLethalMenu set [_bulletsI + 1, 
+		JtacSmokeMenu set [_bulletsI + 1,
 			[_currentBullet select 1, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
 		];
 	};
 
-	if (count JtacNonLethalMenu > 1) then {
-		JtacMainMenu = JtacMainMenu + [["Non Lethal", [_keyNumber], "#USER:JtacNonLethalMenu", -5, [["expression", ""]], "1", "1"]];
+	if (count JtacSmokeMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Smoke", [_keyNumber], "#USER:JtacSmokeMenu", -5, [["expression", ""]], "1", "1"]];
+		_keyNumber = _keyNumber + 1;
+	};
+
+	_bulletsCount = count _night;
+	JtacNightMenu = [["JTAC Night", true]];
+	for "_bulletsI" from 0 to _bulletsCount -1 do {
+		private _currentBullet = _night select _bulletsI;
+		private _innerExpressionString = format ["[['%1', %2, %3, '[",  _currentBullet select 0, _currentBullet select 2, _currentBullet select 3] +
+								"%1, %2," +
+								format["%1", _currentBullet select 5] +
+								format["] call %1;'], 'average'] call CLIENT_REQUEST_PERMISSION_TO_FIRE;", _currentBullet select 4];
+		JtacNightMenu set [_bulletsI + 1,
+			[_currentBullet select 1, [_bulletsI + 2], "", -5, [["expression", _innerExpressionString]], "1", "1"]
+		];
+	};
+
+	if (count JtacNightMenu > 1) then {
+		JtacMainMenu = JtacMainMenu + [["Night", [_keyNumber], "#USER:JtacNightMenu", -5, [["expression", ""]], "1", "1"]];
 		_keyNumber = _keyNumber + 1;
 	};
 
