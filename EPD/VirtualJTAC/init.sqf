@@ -9,6 +9,7 @@ call compile preprocessFileLineNumbers "EPD\VirtualJTAC\Attacks\StrafingRun.sqf"
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacattackparser.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacfirecontrol.sqf";
 call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacreload.sqf";
+call compile preprocessFileLineNumbers "EPD\VirtualJTAC\jtacmapcontrol.sqf";
 
 call PARSE_AVAILABLE_JTAC_ATTACKS;
 
@@ -16,6 +17,7 @@ if(!isDedicated) then {
 	//Client Variable to show and hide the addAction
 	JtacAvailable = true;
 	JtacIncomingAngle = "RANDOM";
+	JtacTargetingMethod = "LASER";
 
 	//Wait for JIP to load in...
 	waitUntil {sleep .5; !(isNull player)};

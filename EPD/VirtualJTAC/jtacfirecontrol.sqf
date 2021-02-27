@@ -23,7 +23,7 @@ CLIENT_BEGIN_TARGETING = {
 	if( _canFireSalvo ) then {
 		
 		if( _acquisitionMethod == "average") then {
-			[_aquisitionGlobalModifier, _payloadInformation] call CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION;
+			[_aquisitionGlobalModifier, _payloadInformation] call CLIENT_LOCK_AND_FIRE_AVERAGE_OR_MAP_LOCATION;
 		} else { if (_acquisitionMethod == "laser") then {
 			[_aquisitionGlobalModifier, _payloadInformation] call CLIENT_LOCK_AND_FIRE_LASER_LOCATION;
 		} else { if (_acquisitionMethod == "vehicle") then {
@@ -41,7 +41,7 @@ CLIENT_BEGIN_TARGETING = {
 	};
 };
 
-CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
+CLIENT_LOCK_AND_FIRE_AVERAGE_OR_MAP_LOCATION = {
 	private _aquisitionGlobalModifier = _this select 0;
 	private _payloadInformation = _this select 1;
 	private _category = _payloadInformation select 0;
@@ -50,40 +50,58 @@ CLIENT_LOCK_AND_FIRE_AVERAGE_LOCATION = {
 
 	private _counter = 0;
 	private _targetAcquired = true;
-	private _laserLocation = [0,0,0];
+	private _targetLocation = [0,0,0];
 
-	while {_counter < 100 } do {
-		_counter = _counter + 1 ;
+	if (JtacTargetingMethod == "LASER") then {
+		while {_counter < 100 } do {
+			_counter = _counter + 1;
 
-		private _laserTarget = LaserTarget player;
-		private _designatorName = "Laser Designator";
+			private _laserTarget = LaserTarget player;
+			private _designatorName = "Laser Designator";
 
-		if(isNull _laserTarget and !isNull laserTarget (getConnectedUAV player)) then {
-			_laserTarget = laserTarget (getConnectedUAV player);
-			_designatorName = "Connected UAV";
+			if(isNull _laserTarget and !isNull laserTarget (getConnectedUAV player)) then {
+				_laserTarget = laserTarget (getConnectedUAV player);
+				_designatorName = "Connected UAV";
+			};
+
+			if(isNull _laserTarget and !isNull laserTarget (vehicle player)) then {
+				_laserTarget = laserTarget (vehicle player);
+				_designatorName = "Your Vehicle";
+			};
+
+			hintSilent format["Using %1\nAcquiring target: %2%3", _designatorName, _counter, "%"];
+
+			if(isNull _laserTarget) exitwith{ _targetAcquired = false; };
+			private _currentLaserLocation = getPosASL _laserTarget;
+
+			_targetLocation = _targetLocation vectorAdd _currentLaserLocation;
+			sleep _counterSleepTime;
 		};
-
-		if(isNull _laserTarget and !isNull laserTarget (vehicle player)) then {
-			_laserTarget = laserTarget (vehicle player);
-			_designatorName = "Your Vehicle";
+		_targetLocation = _targetLocation vectorMultiply ( 1.0 / _counter);
+		if(_targetAcquired) then {
+			hint "Rounds inbound, take cover! \n(It's safe to turn your laser off.)";
+		} else {
+			hint format["Laser turned off. Targeting canceled"];
 		};
-
-		hintSilent format["Using %1\nAcquiring target: %2%3", _designatorName, _counter, "%"];
-
-		if(isNull _laserTarget) exitwith{ _targetAcquired = false; };
-		private _currentLaserLocation = getPosASL _laserTarget;
-
-		_laserLocation = _laserLocation vectorAdd _currentLaserLocation;
-		sleep _counterSleepTime;
+	} else { // if (JtacTargetingMethod == "MAP")
+		private _mapPositionResult = call JTAC_GET_MAP_POSITIONS;
+		_targetAcquired = _mapPositionResult select 0;
+		if(_targetAcquired) then {
+			_targetLocation = _mapPositionResult select 1;
+			while {_counter < 100 } do {
+				_counter = _counter + 2;
+				hintSilent format["Transmitting coordinates: %1%2", _counter, "%"];
+				sleep _counterSleepTime;
+			};
+			hint "Rounds inbound";
+		} else {
+			hint "Map closed early. Fire mission canceled.";
+		};
 	};
 	
 	if(_targetAcquired) then {
-		_laserLocation = _laserLocation vectorMultiply ( 1.0 / _counter);
-		hint "Rounds inbound, take cover! \n(It's safe to turn your laser off.)";
-		private _firemission = format[(_payloadInformation select 3), _laserLocation, call CLIENT_GET_DIRECTION];
+		private _firemission = format[(_payloadInformation select 3), _targetLocation, call CLIENT_GET_DIRECTION];
 		[player, _firemission, _category, _capacityUsed, true, []] remoteExec ["SERVER_PERFORM_FIRE_MISSION", 2, false];
-	} else {
-		hint format["Laser turned off. Targeting canceled"];
 	};
 };
 
@@ -191,16 +209,10 @@ CLIENT_LOCK_AND_FIRE_VEHICLE = {
 };
 
 CLIENT_GET_DIRECTION = {
-	switch (JtacIncomingAngle) do {
-		case "N": { 0 };
-		case "NE": { 45 };
-		case "E": { 90 };
-		case "SE": { 135 };
-		case "S": { 180 };
-		case "SW": { 225 };
-		case "W": { 270 };
-		case "NW": { 315 };
-		default { random 360 };
+	if (JtacIncomingAngle isEqualTo "RANDOM") then {
+		random 360;
+	} else {
+		JtacIncomingAngle;
 	};
 };
 
@@ -211,7 +223,7 @@ SERVER_PERFORM_FIRE_MISSION = {
 	private _capacityUsed = _this select 3;
 	private _shouldPerformOnServer = _this select 4;
 	private _extraParams = _this select 5;
-	
+
 	if (_category call CAN_PERFORM_FIRE_MISSION) then {
 		[_category, _capacityUsed] call RECORD_FIRE_MISSION;
 

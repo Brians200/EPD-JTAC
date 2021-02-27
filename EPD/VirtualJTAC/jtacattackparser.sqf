@@ -213,16 +213,25 @@ PARSE_AVAILABLE_JTAC_ATTACKS = {
 	JtacDirectionsMenu = [
 		["Fire Direction", true],
 		["Random", [2], "", -5, [["expression", "JtacIncomingAngle = 'RANDOM'; titleText ['Fire missions will fire from a random direction.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["North", [3], "", -5, [["expression", "JtacIncomingAngle = 'N'; titleText ['Fire missions will fire from the North.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["Northwest", [4], "", -5, [["expression", "JtacIncomingAngle = 'NW'; titleText ['Fire missions will fire from the Northwest.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["Northeast", [5], "", -5, [["expression", "JtacIncomingAngle = 'NE'; titleText ['Fire missions will fire from the Northeast.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["West", [6], "", -5, [["expression", "JtacIncomingAngle = 'W'; titleText ['Fire missions will fire from the West.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["East", [7], "", -5, [["expression", "JtacIncomingAngle = 'E'; titleText ['Fire missions will fire from the East.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["South", [8], "", -5, [["expression", "JtacIncomingAngle = 'S'; titleText ['Fire missions will fire from the South.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["Southwest", [9], "", -5, [["expression", "JtacIncomingAngle = 'SW'; titleText ['Fire missions will fire from the Southwest.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
-		["Southeast", [10], "", -5, [["expression", "JtacIncomingAngle = 'SE'; titleText ['Fire missions will fire from the Southeast.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"]
+		["North", [3], "", -5, [["expression", "JtacIncomingAngle = 0; titleText ['Fire missions will fire from the North.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["Northwest", [4], "", -5, [["expression", "JtacIncomingAngle = 315; titleText ['Fire missions will fire from the Northwest.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["Northeast", [5], "", -5, [["expression", "JtacIncomingAngle = 45; titleText ['Fire missions will fire from the Northeast.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["West", [6], "", -5, [["expression", "JtacIncomingAngle = 270; titleText ['Fire missions will fire from the West.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["East", [7], "", -5, [["expression", "JtacIncomingAngle = 90; titleText ['Fire missions will fire from the East.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["South", [8], "", -5, [["expression", "JtacIncomingAngle = 180; titleText ['Fire missions will fire from the South.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["Southwest", [9], "", -5, [["expression", "JtacIncomingAngle = 225; titleText ['Fire missions will fire from the Southwest.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"],
+		["Southeast", [10], "", -5, [["expression", "JtacIncomingAngle = 135; titleText ['Fire missions will fire from the Southeast.', 'PLAIN']; titleFadeOut 2;"]], "1", "1"]
 	];
 	JtacMainMenu = JtacMainMenu + [["Fire Direction", [_keyNumber], "#USER:JtacDirectionsMenu",-5,[["expression",""]],"1","1"]];
+	_keyNumber = _keyNumber + 1;
+
+	JtacTargetingMethodMenu = [
+		["Targeting Method", true],
+		["Laser", [2], "", -5, [["expression", "JtacTargetingMethod = 'LASER'; titleText ['Targets will be selected using your laser designator.', 'PLAIN']; titleFadeOut 3;"]], "1", "1"],
+		["Map", [3], "", -5, [["expression", "JtacTargetingMethod = 'MAP'; titleText ['Targets will be selected using your map.', 'PLAIN']; titleFadeOut 3;"]], "1", "1"]
+	];
+	JtacMainMenu = JtacMainMenu + [["Targeting Method", [_keyNumber], "#USER:JtacTargetingMethodMenu",-5,[["expression",""]],"1","1"]];
+
 	_keyNumber = _keyNumber + 1;
 	JtacMainMenu = JtacMainMenu + [["Reload Status", [_keyNumber], "",-5,[["expression","player remoteExec ['GET_RELOAD_STATUS_ARRAY', 2, false];"]],"1","1"]];
 };
